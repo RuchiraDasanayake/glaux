@@ -5,7 +5,7 @@
  * card uses generic serif/sans stacks that resolve on the rendering machine.
  * The output is committed, so it only has to render correctly once.
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -80,10 +80,55 @@ const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512
   </g>
 </svg>`;
 
+/* Latin text only: the build machine may have no Sinhala font, and a card of
+   empty boxes is worse than none. The app icon is paths, so it renders anywhere. */
+const akuruIcon = (await readFile(resolve(PUBLIC, "akuru/icon.svg"), "utf8"))
+  .replace(/^[\s\S]*?<svg[^>]*>/, "")
+  .replace(/<\/svg>\s*$/, "");
+
+const akuruSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
+  <defs>
+    <radialGradient id="core" cx="30%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#0d1626"/>
+      <stop offset="100%" stop-color="#070b12"/>
+    </radialGradient>
+    <radialGradient id="gleam" cx="92%" cy="-10%" r="70%">
+      <stop offset="0%" stop-color="#e9b45c" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#e9b45c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#core)"/>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#gleam)"/>
+
+  <svg x="96" y="104" width="128" height="128" viewBox="0 0 512 512">${akuruIcon}</svg>
+
+  <text x="252" y="158" fill="#dce6f4"
+        font-family="Marcellus, Georgia, 'Times New Roman', serif"
+        font-size="44" letter-spacing="1">Glaux Akuru</text>
+  <text x="254" y="206" fill="#7a8faf"
+        font-family="'Spline Sans Mono', Consolas, monospace"
+        font-size="18" letter-spacing="3.6">FREE WINDOWS APP</text>
+
+  <text x="92" y="388" fill="#f4f8ff"
+        font-family="Marcellus, Georgia, 'Times New Roman', serif"
+        font-size="96">Sinhala, typed right.</text>
+
+  <text x="96" y="458" fill="#8da0bc"
+        font-family="'Schibsted Grotesk', 'Segoe UI', Helvetica, Arial, sans-serif"
+        font-size="27">Singlish and Wijesekara typing, FM Abhaya to Unicode, whole Word files.</text>
+
+  <line x1="96" y1="520" x2="1104" y2="520" stroke="#8da0bc" stroke-opacity="0.28"/>
+  <text x="96" y="566" fill="#e9b45c"
+        font-family="'Spline Sans Mono', Consolas, monospace"
+        font-size="17" letter-spacing="4.6">USEGLAUX.COM/AKURU</text>
+</svg>`;
+
 await mkdir(PUBLIC, { recursive: true });
 
 const outputs = [
   ["og-image.png", socialSvg, WIDTH, HEIGHT],
+  ["og-akuru.png", akuruSvg, WIDTH, HEIGHT],
   ["brand-icon-512.png", iconSvg, 512, 512],
   ["apple-touch-icon.png", iconSvg, 180, 180],
 ];

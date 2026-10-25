@@ -1,4 +1,11 @@
-import { COMPANY_NAME, CONTACT_EMAIL, DISCLAIMER, LEDGER_URL, WORDMARK } from "../lib/brand";
+import {
+  AKURU_PATH,
+  COMPANY_NAME,
+  CONTACT_EMAIL,
+  DISCLAIMER,
+  LEDGER_URL,
+  WORDMARK,
+} from "../lib/brand";
 import ArrowUpRight from "./ArrowUpRight";
 import OwlMark from "./OwlMark";
 
@@ -40,6 +47,9 @@ export default function Footer() {
                   Glaux Ledger
                   <ArrowUpRight size={12} />
                 </a>
+              </li>
+              <li>
+                <a href={AKURU_PATH}>Glaux Akuru</a>
               </li>
               <li>
                 <span>Glaux Markets (in development)</span>

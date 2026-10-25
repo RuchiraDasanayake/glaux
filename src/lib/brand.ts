@@ -8,6 +8,7 @@ export const COMPANY_NAME = "Glaux";
 export const WORDMARK = "GLAUX";
 
 export const LEDGER_URL = import.meta.env.VITE_LEDGER_URL ?? "https://ledger.useglaux.com";
+export const AKURU_PATH = "/akuru/";
 export const CONTACT_EMAIL = "useglaux@gmail.com";
 
 export const HERO = {
@@ -52,6 +53,17 @@ export const PRODUCTS: readonly Product[] = [
     chips: ["Voice entry", "Receipt capture", "Seconds per entry", "Built for phones"],
     href: LEDGER_URL,
     cta: "Open Glaux Ledger",
+  },
+  {
+    id: "akuru",
+    name: "Glaux Akuru",
+    status: "live",
+    statusLabel: "Live",
+    tagline: "Sinhala typing and FM to Unicode for Windows",
+    body: "A free Windows app for the communication centres, bookshops and print shops that type Sinhala all day. Singlish or Wijesekara straight to Unicode, FM Abhaya text and whole Word files converted both ways, and the broken ශ්‍රී that online converters leave behind put right. It works with no internet.",
+    chips: ["Singlish and Wijesekara", "FM to Unicode", "Word files", "Works offline"],
+    href: AKURU_PATH,
+    cta: "Download Glaux Akuru",
   },
   {
     id: "markets",

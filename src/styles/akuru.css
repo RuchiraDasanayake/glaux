@@ -1,0 +1,414 @@
+/* ================================================================
+   GLAUX AKURU: the download page for the Windows app.
+   The site's fonts are subset to Latin, so Sinhala falls through to the
+   reader's own Sinhala font, which every current Windows, Android and
+   Apple system ships.
+   ================================================================ */
+
+:root {
+  --font-sinhala:
+    "Noto Sans Sinhala", "Nirmala UI", "Iskoola Pota", "Sinhala Sangam MN", "Sinhala MN", sans-serif;
+}
+
+.akuru-si {
+  font-family: var(--font-sinhala);
+}
+
+.akuru-nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--hairline);
+}
+.akuru-nav .link-arrow {
+  align-self: center;
+}
+.akuru-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: var(--tracking-caps);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------- hero */
+
+.akuru-hero {
+  display: grid;
+  gap: 56px;
+  padding-block: clamp(56px, 11vh, 128px) clamp(40px, 8vh, 96px);
+}
+@media (min-width: 1040px) {
+  .akuru-hero {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(48px, 6vw, 120px);
+  }
+}
+
+.akuru-hero__product {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+.akuru-hero__product small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.akuru-hero__title {
+  margin-top: 36px;
+  max-width: 12ch;
+  font-size: var(--fs-display-2xl);
+  line-height: var(--lh-tight);
+  text-wrap: balance;
+}
+.akuru-hero__si {
+  margin-top: 16px;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  color: var(--gleam);
+}
+.akuru-hero__lead {
+  margin-top: 28px;
+  max-width: 54ch;
+  font-size: var(--fs-lead);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+.akuru-download {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.akuru-download__spec span {
+  white-space: nowrap;
+}
+.akuru-download__spec {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-mono);
+  color: var(--text-tertiary);
+}
+.akuru-download__note {
+  max-width: 46ch;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid var(--gleam);
+  font-size: var(--fs-body-sm);
+  color: var(--text-secondary);
+}
+
+.akuru-shot {
+  margin: 0;
+  min-width: 0;
+}
+.akuru-shot__frame {
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: #0d0f18;
+  box-shadow:
+    var(--shadow-lg),
+    0 40px 120px -48px var(--accent-glow-strong);
+}
+.akuru-shot__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding-inline: 14px;
+  border-bottom: 1px solid rgba(220, 230, 244, 0.06);
+  background: #0a0c13;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+.akuru-shot__controls {
+  margin-inline-start: auto;
+}
+.akuru-shot__frame > img {
+  width: 100%;
+  height: auto;
+}
+.akuru-shot figcaption {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-mono);
+  color: var(--text-tertiary);
+}
+
+/* ---------------------------------------------------------------- fixes */
+
+.akuru-fixes {
+  margin-top: clamp(32px, 5vh, 60px);
+  border-top: 1px solid var(--hairline-strong);
+}
+.akuru-fix {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  grid-template-areas:
+    "index title"
+    "index specimen"
+    "index body";
+  gap: 14px 0;
+  padding-block: clamp(28px, 4.5vh, 44px);
+  border-bottom: 1px solid var(--hairline);
+}
+@media (min-width: 1040px) {
+  .akuru-fix {
+    grid-template-columns: 7.5rem minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "index title specimen"
+      "index body specimen";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(24px, 4vw, 72px);
+  }
+}
+.akuru-fix__index {
+  grid-area: index;
+  padding-top: 0.3em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  color: var(--gleam);
+}
+.akuru-fix__title {
+  grid-area: title;
+  font-size: var(--fs-title);
+}
+.akuru-fix__body {
+  grid-area: body;
+  max-width: 58ch;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.akuru-fix__specimen {
+  grid-area: specimen;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-self: center;
+  gap: 8px 20px;
+  font-size: clamp(1.3rem, 2.3vw, 1.85rem);
+  color: var(--text-primary);
+}
+.akuru-fix__after {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 20px;
+}
+.akuru-fix__arrow {
+  color: var(--gleam);
+}
+.akuru-sample {
+  white-space: nowrap;
+}
+code.akuru-sample {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: var(--text-secondary);
+}
+.akuru-sample--wrong {
+  color: var(--text-tertiary);
+  text-decoration: underline wavy var(--ember);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.32em;
+}
+
+/* ---------------------------------------------------------------- install */
+
+.akuru-steps {
+  margin-top: clamp(32px, 5vh, 60px);
+  display: grid;
+  border-top: 1px solid var(--hairline-strong);
+}
+.akuru-step {
+  padding-block: 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+@media (min-width: 900px) {
+  .akuru-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  .akuru-step {
+    border-bottom: 0;
+  }
+}
+.akuru-step__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  color: var(--gleam);
+}
+.akuru-step h3 {
+  margin-top: 16px;
+  font-size: var(--fs-title);
+}
+.akuru-step p {
+  margin-top: 10px;
+  max-width: 42ch;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.akuru-extras {
+  display: grid;
+  gap: 40px clamp(32px, 7vw, 120px);
+  margin-top: clamp(32px, 5vh, 56px);
+  padding-top: clamp(32px, 5vh, 48px);
+  border-top: 1px solid var(--hairline);
+}
+@media (min-width: 900px) {
+  .akuru-extras {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+.akuru-portable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.akuru-portable h3 {
+  font-size: var(--fs-title);
+}
+.akuru-portable p {
+  color: var(--text-secondary);
+}
+.akuru-portable .link-arrow {
+  margin-top: 10px;
+}
+
+.akuru-specs {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+  align-content: start;
+}
+.akuru-specs dt,
+.akuru-checksums dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.akuru-specs dd {
+  margin: 6px 0 0;
+  color: var(--text-primary);
+}
+
+.akuru-checksums {
+  margin-top: 40px;
+}
+.akuru-checksums summary {
+  cursor: pointer;
+  width: fit-content;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-secondary);
+}
+.akuru-checksums summary::marker {
+  color: var(--gleam);
+}
+.akuru-checksums summary:hover {
+  color: var(--accent-primary);
+}
+.akuru-checksums p {
+  margin-top: 16px;
+  max-width: 68ch;
+  font-size: var(--fs-body-sm);
+  color: var(--text-secondary);
+}
+.akuru-checksums p code {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+.akuru-checksums dl {
+  margin: 20px 0 0;
+  display: grid;
+  gap: 16px;
+}
+.akuru-checksums dt {
+  text-transform: none;
+  letter-spacing: var(--tracking-mono);
+}
+.akuru-checksums dd {
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------- questions */
+
+.akuru-faq {
+  margin: clamp(32px, 5vh, 60px) 0 0;
+  border-top: 1px solid var(--hairline-strong);
+}
+.akuru-faq__item {
+  display: grid;
+  gap: 12px clamp(36px, 7vw, 104px);
+  padding-block: clamp(24px, 4vh, 36px);
+  border-bottom: 1px solid var(--hairline);
+}
+@media (min-width: 900px) {
+  .akuru-faq__item {
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  }
+}
+.akuru-faq__item dt {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.akuru-faq__item dd {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.akuru-footer {
+  min-height: 112px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-block: 32px;
+  border-top: 1px solid var(--hairline);
+  font-size: var(--fs-label);
+  color: var(--text-tertiary);
+}
+.akuru-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.akuru-footer a {
+  color: var(--text-secondary);
+}
+.akuru-footer a:hover {
+  color: var(--accent-primary);
+}

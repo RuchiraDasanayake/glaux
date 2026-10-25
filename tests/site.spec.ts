@@ -1,5 +1,13 @@
+import { readFileSync } from "node:fs";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+
+const release = JSON.parse(readFileSync("src/akuru/release.json", "utf8")) as {
+  version: string;
+  files: Record<"setup" | "portable", { name: string; sha256: string }>;
+};
+const installerUrl = (name: string) =>
+  new RegExp(`^https://[^/]+/.*${name.replace(/[.]/g, "\\.")}$`);
 
 test("home exposes its primary content and metadata", async ({ page }) => {
   const errors: string[] = [];
@@ -29,8 +37,10 @@ test("home exposes its primary content and metadata", async ({ page }) => {
 
 test("skip link moves focus to main content", async ({ page }) => {
   await page.goto("/");
+  const skipLink = page.getByRole("link", { name: "Skip to main content" });
+  await expect(skipLink).toBeAttached();
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
+  await expect(skipLink).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
 });
@@ -47,6 +57,63 @@ test("the linked product row has a matching hit area", async ({ page }) => {
     { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 },
   );
   expect(targetHref).toBe("https://ledger.useglaux.com");
+});
+
+test("the Glaux Akuru row leads to its download page", async ({ page }) => {
+  await page.goto("/");
+  const akuru = page.locator(".product", { hasText: "Glaux Akuru" });
+  await expect(akuru.getByRole("link", { name: "Download Glaux Akuru" })).toHaveAttribute(
+    "href",
+    "/akuru/",
+  );
+  await expect(page.locator(".footer").getByRole("link", { name: "Glaux Akuru" })).toHaveAttribute(
+    "href",
+    "/akuru/",
+  );
+});
+
+test("the Glaux Akuru page offers the current installers", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  page.on("pageerror", (error) => errors.push(error.message));
+
+  await page.goto("/akuru/");
+  await expect(page).toHaveTitle(/^Glaux Akuru \|/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sinhala, typed right.");
+  await expect(page.locator(".btn")).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Download for Windows" })).toHaveAttribute(
+    "href",
+    installerUrl(release.files.setup.name),
+  );
+  await expect(page.getByRole("link", { name: /^Download portable/ })).toHaveAttribute(
+    "href",
+    installerUrl(release.files.portable.name),
+  );
+  await expect(page.getByText(`Version ${release.version}`, { exact: true })).toBeVisible();
+  await expect(page.getByText("This download is for Windows PCs")).toHaveCount(0);
+
+  await page.getByText("Check the files (SHA-256)").click();
+  await expect(page.getByText(release.files.setup.sha256.toUpperCase())).toBeVisible();
+
+  for (const asset of ["/akuru/editor.webp", "/akuru/icon.svg", "/og-akuru.png"]) {
+    expect((await page.request.get(asset)).ok(), asset).toBeTruthy();
+  }
+  expect(errors).toEqual([]);
+});
+
+test.describe("on a phone", () => {
+  test.use({
+    userAgent:
+      "Mozilla/5.0 (Linux; Android 14; SM-A155F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
+  });
+
+  test("the Glaux Akuru page says the download is for Windows PCs", async ({ page }) => {
+    await page.goto("/akuru/");
+    await expect(page.getByText("This download is for Windows PCs")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Download for Windows" })).toBeVisible();
+  });
 });
 
 test("products still in development are stated as such and never linked", async ({ page }) => {
@@ -98,9 +165,11 @@ for (const legalPage of [
   });
 }
 
-test("home has no automatically detectable accessibility violations", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations).toEqual([]);
-});
+for (const path of ["/", "/akuru/"]) {
+  test(`${path} has no automatically detectable accessibility violations`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto(path);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  });
+}
