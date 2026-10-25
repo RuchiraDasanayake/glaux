@@ -2,7 +2,8 @@
 
 The company site for Glaux: the parent-brand hub that explains what Glaux is
 and routes people to the products. A single page, dark-only, anchored on a
-lazily-loaded 3D owl that is the `OwlMark` brand SVG given depth.
+lazily-loaded 3D owl that is the `OwlMark` brand SVG given depth, plus the
+download page for the Glaux Akuru Windows app at `/akuru/`.
 
 The page is built on one left spine. Copy starts on it in every section, the
 hero splits copy left against the owl right, and nothing is centred. A
@@ -12,6 +13,8 @@ is meant to read as a research group rather than a landing page.
 Products it points at:
 
 - **Glaux Ledger**: [ledger.useglaux.com](https://ledger.useglaux.com) (live)
+- **Glaux Akuru**: [useglaux.com/akuru](https://useglaux.com/akuru/) (live; a Windows app, downloaded
+  from its page here)
 - **Glaux Markets**: in development
 - **Glaux Agro**: in development
 
@@ -44,10 +47,11 @@ npm run dev        # http://localhost:5173
 
 Everything has a working default; `.env` is optional. See `.env.example`.
 
-| Variable             | Default                       | Purpose                                       |
-| -------------------- | ----------------------------- | --------------------------------------------- |
-| `VITE_LEDGER_URL`    | `https://ledger.useglaux.com` | Product origin used by every Ledger link      |
-| `VITE_OWL_MODEL_URL` | _(unset)_                     | Load a glTF/GLB instead of the procedural owl |
+| Variable               | Default                                | Purpose                                       |
+| ---------------------- | -------------------------------------- | --------------------------------------------- |
+| `VITE_LEDGER_URL`      | `https://ledger.useglaux.com`          | Product origin used by every Ledger link      |
+| `VITE_AKURU_DOWNLOADS` | `https://downloads.useglaux.com/akuru` | Where the Glaux Akuru installers are served   |
+| `VITE_OWL_MODEL_URL`   | _(unset)_                              | Load a glTF/GLB instead of the procedural owl |
 
 ## Deployment
 
@@ -282,8 +286,8 @@ panels, blurred glass, chips, a pulsing live pill) made the company page look
 like a screenshot of its own dashboard. So products are hairline rows rather
 than cards, facets are a mono spec line rather than pills, the nav is opaque
 rather than frosted, and the page carries exactly one filled button: the hero's
-"Open Glaux Ledger", the only product currently shipping. Everything else is a
-rule-and-arrow link, which is what keeps that one gold rectangle meaning
+"Open Glaux Ledger" (on the Akuru page, "Download for Windows"). Everything else
+is a rule-and-arrow link, which is what keeps that one gold rectangle meaning
 something.
 
 - `src/styles/tokens.css`: the Nyx palette (`--nyx #070b12`, `--gleam
@@ -343,9 +347,29 @@ heavy under the hand.
 Title, description, canonical, OG and Twitter cards, and an `Organization` +
 `WebSite` JSON-LD graph that names the Glaux products as brands, all in
 `index.html`. `public/robots.txt` and `public/sitemap.xml` are static.
-`npm run build` regenerates `public/og-image.png`, `brand-icon-512.png`, and
-`apple-touch-icon.png` before Vite runs. Commit the generated files so previews
-and non-build consumers have the same assets.
+`npm run build` regenerates `public/og-image.png`, `og-akuru.png`,
+`brand-icon-512.png`, and `apple-touch-icon.png` before Vite runs. Commit the
+generated files so previews and non-build consumers have the same assets.
+`akuru/index.html` carries its own cards and a `SoftwareApplication` JSON-LD.
+
+## Glaux Akuru downloads
+
+`/akuru/` is the download page for the Glaux Akuru Windows app (`akuru/index.html`,
+`src/akuru/`, `src/styles/akuru.css`). The app itself lives in its own repo; there is
+no web version of it.
+
+The installers are about 100 MB, and Cloudflare Pages refuses files over 25 MiB, so
+they live in the R2 bucket `glaux-downloads` under `akuru/`, served from the bucket's
+custom domain `downloads.useglaux.com`. The page reads the version, file names, sizes
+and SHA-256 sums from `src/akuru/release.json`, which the app's `pnpm release` writes.
+
+To publish a version: in the app repo run `pnpm dist:win` and `pnpm release`, run the
+two `wrangler r2 object put` commands it prints, copy its `dist/release.json` over
+`src/akuru/release.json` here, and deploy. Upload first: the page links to the new
+files as soon as it is live. Old versions can stay in the bucket.
+
+`public/akuru/editor.webp` is a real screenshot of the app's editor (dark theme,
+1600 px wide). Retake it when the editor changes visibly.
 
 ## Legal
 

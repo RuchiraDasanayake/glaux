@@ -8,6 +8,15 @@
 /og-image.png
   Cache-Control: public, max-age=86400
 
+/og-akuru.png
+  Cache-Control: public, max-age=86400
+
+/akuru/editor.webp
+  Cache-Control: public, max-age=86400
+
+/akuru/icon.svg
+  Cache-Control: public, max-age=604800
+
 /brand-icon-512.png
   Cache-Control: public, max-age=604800
 
@@ -25,6 +34,14 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /privacy/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Not /akuru/*: Cloudflare joins the Cache-Control of every rule that matches,
+# and the images beside this page have their own.
+/akuru/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/akuru/index.html
   Cache-Control: public, max-age=0, must-revalidate
 
 /*

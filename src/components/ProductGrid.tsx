@@ -16,8 +16,9 @@ export default function ProductGrid() {
               <h2 className="section__title">One instrument per domain.</h2>
               <p className="section__lead">
                 Each Glaux product is a separate application with its own data and its own users.
-                One keeps the record a small business runs on; the others measure the risk that
-                record cannot see by itself. They share a method, not a dashboard.
+                Two already serve Sri Lankan shops: one keeps the record the business runs on, the
+                other gets its Sinhala typed right. The rest measure the risk that record cannot see
+                by itself.
               </p>
             </div>
           </div>

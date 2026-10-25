@@ -37,6 +37,7 @@ export default defineConfig({
         home: resolve(import.meta.dirname, "index.html"),
         terms: resolve(import.meta.dirname, "terms/index.html"),
         privacy: resolve(import.meta.dirname, "privacy/index.html"),
+        akuru: resolve(import.meta.dirname, "akuru/index.html"),
       },
       output: { manualChunks: chunkFor },
     },
