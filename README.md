@@ -56,7 +56,7 @@ Everything has a working default; `.env` is optional. See `.env.example`.
 ## Deployment
 
 A static upload of `dist/`. There is no server code, no API route, no
-Cloudflare Worker, no Wrangler config, and no Pages Functions — only static
+Cloudflare Worker, no Wrangler config, and no Pages Functions: only static
 files. Any static host serves it identically.
 
 It runs on **Cloudflare Pages** (Git-connected build in the dashboard; not a

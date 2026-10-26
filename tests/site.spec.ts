@@ -94,6 +94,11 @@ test("the Glaux Akuru page offers the current installers", async ({ page }) => {
   await expect(page.getByText(`Version ${release.version}`, { exact: true })).toBeVisible();
   await expect(page.getByText("This download is for Windows PCs")).toHaveCount(0);
 
+  const pricing = page.getByRole("region", { name: /^Free for typing/ });
+  for (const price of ["LKR 0", "LKR 490", "LKR 4,900", "LKR 1,490", "LKR 14,900"]) {
+    await expect(pricing).toContainText(price);
+  }
+
   await page.getByText("Check the files (SHA-256)").click();
   await expect(page.getByText(release.files.setup.sha256.toUpperCase())).toBeVisible();
 

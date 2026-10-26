@@ -60,7 +60,7 @@ export const PRODUCTS: readonly Product[] = [
     status: "live",
     statusLabel: "Live",
     tagline: "Sinhala typing and FM to Unicode for Windows",
-    body: "A free Windows app for the communication centres, bookshops and print shops that type Sinhala all day. Singlish or Wijesekara straight to Unicode, FM Abhaya text and whole Word files converted both ways, and the broken ශ්‍රී that online converters leave behind put right. It works with no internet.",
+    body: "A Windows app for the communication centres, bookshops and print shops that type Sinhala all day. Singlish or Wijesekara straight to Unicode, FM Abhaya text converted both ways, and the broken ශ්‍රී that online converters leave behind put right, all free. Pro adds whole Word files and hotkeys that work in any program. It works with no internet.",
     chips: ["Singlish and Wijesekara", "FM to Unicode", "Word files", "Works offline"],
     href: AKURU_PATH,
     cta: "Download Glaux Akuru",
