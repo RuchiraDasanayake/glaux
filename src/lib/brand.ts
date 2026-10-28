@@ -9,7 +9,7 @@ export const WORDMARK = "GLAUX";
 
 export const LEDGER_URL = import.meta.env.VITE_LEDGER_URL ?? "https://ledger.useglaux.com";
 export const AKURU_PATH = "/akuru/";
-export const CONTACT_EMAIL = "support@useglaux.com";
+export const CONTACT_EMAIL = "useglaux@gmail.com";
 
 export const HERO = {
   headline: "We build instruments for reading risk.",
