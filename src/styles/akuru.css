@@ -229,6 +229,78 @@ code.akuru-sample {
   text-underline-offset: 0.32em;
 }
 
+/* ---------------------------------------------------------------- pricing */
+
+.akuru-plans {
+  margin-top: clamp(32px, 5vh, 60px);
+  display: grid;
+  border-top: 1px solid var(--hairline-strong);
+}
+.akuru-plan {
+  padding-block: 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+@media (min-width: 900px) {
+  .akuru-plans {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  .akuru-plan {
+    border-bottom: 0;
+  }
+}
+.akuru-plan h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  font-size: var(--fs-title);
+}
+.akuru-plan__pcs {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--gleam);
+}
+.akuru-plan__price {
+  margin-top: 18px;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  color: var(--text-primary);
+}
+.akuru-plan__price small {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  color: var(--text-tertiary);
+}
+.akuru-plan__note {
+  margin-top: 4px;
+  font-size: var(--fs-body-sm);
+  color: var(--text-secondary);
+}
+.akuru-plan ul {
+  margin-top: 20px;
+  display: grid;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+.akuru-plan ul li {
+  padding-inline-start: 18px;
+  position: relative;
+}
+.akuru-plan ul li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.65em;
+  width: 8px;
+  height: 1px;
+  background: var(--gleam);
+}
+
 /* ---------------------------------------------------------------- install */
 
 .akuru-steps {

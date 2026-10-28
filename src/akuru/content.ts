@@ -68,6 +68,41 @@ export const steps = (setupName: string): Step[] => [
   },
 ];
 
+export interface Plan {
+  name: string;
+  /** LKR. The app's prices live in glaux-akuru's config/sales.json; keep the two the same. */
+  month: number;
+  year: number;
+  pcs: string;
+  features: string[];
+}
+
+export const TRIAL_DAYS = 14;
+
+export const FREE_FEATURES = [
+  "Singlish and Wijesekara typing",
+  "FM Abhaya text to Unicode and back",
+  "The Doctor for broken Sinhala",
+  "Typing charts and help",
+];
+
+export const PLANS: Plan[] = [
+  {
+    name: "Pro",
+    month: 490,
+    year: 4900,
+    pcs: "1 PC",
+    features: ["Whole Word files and folders", "Ctrl+Alt hotkeys in any program", "Quick type"],
+  },
+  {
+    name: "Shop",
+    month: 1490,
+    year: 14900,
+    pcs: "Up to 3 PCs",
+    features: ["Everything in Pro, on up to 3 PCs", "For communication centres and print shops"],
+  },
+];
+
 export interface Question {
   question: string;
   answer: string;
@@ -77,7 +112,17 @@ export const QUESTIONS: Question[] = [
   {
     question: "Is it free?",
     answer:
-      "Yes, everything in this version is free. Typing, converting and fixing Sinhala text will stay free.",
+      "Typing, converting text and fixing Sinhala are free for good, on as many PCs as you like. Word files and the hotkeys are Pro. Every install gets 14 days of Pro to try first.",
+  },
+  {
+    question: "How do I pay?",
+    answer:
+      "In the app, open Glaux Akuru Pro and pay by bank transfer, eZ Cash or card. Then press Send on WhatsApp: it sends us your receipt and the PC code. We reply with a key, usually the same day. Paste it in and press Activate. There is no account to make.",
+  },
+  {
+    question: "What if I change PCs?",
+    answer:
+      "A key works on the PC it was made for. If you replace the PC or reinstall Windows, message us the new PC code from the Pro page and we'll send a new key for the rest of your time.",
   },
   {
     question: "Does it need the internet?",

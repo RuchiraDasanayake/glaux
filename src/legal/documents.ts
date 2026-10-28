@@ -77,7 +77,7 @@ export const TERMS: LegalDocument = {
     },
     {
       title: "Contact",
-      paragraphs: ["Questions about these Terms can be sent to useglaux@gmail.com."],
+      paragraphs: ["Questions about these Terms can be sent to support@useglaux.com."],
     },
   ],
 };
@@ -151,7 +151,7 @@ export const PRIVACY: LegalDocument = {
       title: "Changes and contact",
       paragraphs: [
         "We may update this policy as the website or applicable requirements change. The effective date above identifies the current version.",
-        "Privacy questions and requests can be sent to useglaux@gmail.com.",
+        "Privacy questions and requests can be sent to support@useglaux.com.",
       ],
     },
   ],

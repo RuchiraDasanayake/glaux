@@ -1,11 +1,20 @@
 import { Fragment } from "react";
 import OwlMark from "../components/OwlMark";
 import { CONTACT_EMAIL, WORDMARK } from "../lib/brand";
-import { FIXES, QUESTIONS, steps, type Specimen } from "./content";
+import {
+  FIXES,
+  FREE_FEATURES,
+  PLANS,
+  QUESTIONS,
+  TRIAL_DAYS,
+  steps,
+  type Specimen,
+} from "./content";
 import { RELEASE, downloadUrl, fileSize, releaseDate } from "./release";
 
 const { setup, portable } = RELEASE.files;
 const onWindows = /Windows/i.test(navigator.userAgent);
+const lkr = (amount: number) => `LKR ${amount.toLocaleString("en-US")}`;
 
 function DownloadIcon() {
   return (
@@ -89,7 +98,7 @@ export default function AkuruApp() {
               <img src="/akuru/icon.svg" alt="" width={44} height={44} />
               <span>
                 Glaux Akuru
-                <small>Windows app · Free</small>
+                <small>Windows app · Free to download</small>
               </span>
             </p>
             <h1 id="akuru-title" className="akuru-hero__title">
@@ -196,6 +205,46 @@ export default function AkuruApp() {
               </li>
             ))}
           </ol>
+        </section>
+
+        <section className="section shell" id="pricing" aria-labelledby="pricing-title">
+          <SectionHead
+            id="pricing-title"
+            eyebrow="Pricing"
+            title="Free for typing. Pro for Word files and hotkeys."
+            lead={`Every install starts with ${TRIAL_DAYS} days of Pro. To keep it, pay monthly or yearly by bank transfer, eZ Cash or card, and send the receipt on WhatsApp from inside the app. We reply with a key. No account, and the app still never goes online.`}
+          />
+          <ul className="akuru-plans">
+            <li className="akuru-plan">
+              <h3>
+                Free <span className="akuru-plan__pcs">Any number of PCs</span>
+              </h3>
+              <p className="akuru-plan__price">LKR 0</p>
+              <p className="akuru-plan__note">For good</p>
+              <ul>
+                {FREE_FEATURES.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </li>
+            {PLANS.map((plan) => (
+              <li className="akuru-plan" key={plan.name}>
+                <h3>
+                  {plan.name} <span className="akuru-plan__pcs">{plan.pcs}</span>
+                </h3>
+                <p className="akuru-plan__price">
+                  {lkr(plan.month)}
+                  <small> a month</small>
+                </p>
+                <p className="akuru-plan__note">or {lkr(plan.year)} a year, two months free</p>
+                <ul>
+                  {plan.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="section shell" id="install" aria-labelledby="install-title">
