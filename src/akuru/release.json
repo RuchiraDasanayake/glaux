@@ -1,16 +1,16 @@
 {
   "version": "0.1.0",
-  "date": "2026-10-25",
+  "date": "2026-10-28",
   "files": {
     "setup": {
       "name": "Glaux-Akuru-Setup-0.1.0.exe",
-      "bytes": 103982165,
-      "sha256": "1f4010e7ddb3728a9de92b346a54eb35c3f4c0d2e7a2de8ffdf12aeeac00d94c"
+      "bytes": 103996462,
+      "sha256": "002af2d67d41029b3f699aab48bb06a1836fc4fe0024763e5d084cfaed09a475"
     },
     "portable": {
       "name": "Glaux-Akuru-Portable-0.1.0.exe",
-      "bytes": 103828532,
-      "sha256": "db6c88ccce33420509ff9097ec25f13dfeb7f0e9396cda5f0656959fd8e7f4d9"
+      "bytes": 103842841,
+      "sha256": "ca977ac409c3b8b041cc544578be694251ba0710897ee5b0ee6cd6979ff0a627"
     }
   }
 }
