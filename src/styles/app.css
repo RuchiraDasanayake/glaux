@@ -12,7 +12,7 @@
 .section {
   position: relative;
   padding-block: var(--section-gap);
-  /* Anchor jumps must clear the sticky nav. */
+  /* Anchor jumps must clear the fixed header. */
   scroll-margin-top: calc(var(--nav-bar-h) + 20px);
 }
 .section::before {
@@ -51,7 +51,7 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
   font-weight: 500;
@@ -59,13 +59,14 @@
   color: var(--gleam);
   letter-spacing: var(--tracking-eyebrow);
 }
-.eyebrow .dot {
+/* The marker in front of every label is the logo's calibration diamond: the
+   same tall gold lozenge that sits at the four cardinal points of its ring. */
+.dot {
   flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 7px;
+  height: 12px;
   background: var(--gleam);
-  box-shadow: 0 0 9px rgba(233, 180, 92, 0.7);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
 }
 
 .section__head {
@@ -114,10 +115,10 @@
 
 /* ================================================================
    ACTIONS
-   There is exactly one filled button on the page: the hero's
-   "Open Glaux Ledger". Every other action is a rule-and-arrow link,
-   so the single gold rectangle keeps its meaning instead of becoming
-   the page's default decoration.
+   There is exactly one filled button on a page: the hero's
+   "Open Glaux Ledger", or the download on a product page. Every other
+   action is a rule-and-arrow link, so the single gold rectangle keeps
+   its meaning instead of becoming the page's default decoration.
    ================================================================ */
 
 .btn {
@@ -157,6 +158,7 @@
 }
 .btn:hover {
   background: var(--grad-brand-hover);
+  color: var(--text-inverse);
   transform: translateY(-1px);
   box-shadow: 0 18px 40px -14px var(--accent-glow-strong);
 }
@@ -216,71 +218,125 @@
 }
 
 /* ================================================================
-   NAV: deliberately absent from the first viewport so the wordmark
-   is the only brand signal there. Fades in once the hero is past.
+   REVEAL
+   Set by <Reveal> only on blocks that are still below the fold once
+   the page has painted. Without the attribute a block is simply there,
+   which is also what printing and reduced motion get.
    ================================================================ */
 
-.nav {
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+[data-reveal="in"] {
+  animation: reveal-in 640ms var(--ease-out) var(--reveal-delay, 0ms) both;
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* ================================================================
+   SITE HEADER
+   One bar on every page: the logo on the spine, the page's links, one
+   quiet action. Always there, so the brand and the way around are
+   never more than a glance away. Bare over the top of a page, where
+   the hero needs the full height, and solid once the page has moved.
+   ================================================================ */
+
+.site-header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 60;
   height: var(--nav-bar-h);
-  display: flex;
-  align-items: center;
-  background: rgba(7, 11, 18, 0.84);
+}
+/* The bar's surface is its own layer, faded in by opacity, so the bar can
+   go from bare to solid without anything in it moving. It is opaque rather
+   than frosted: blurring whatever scrolls underneath is paid for on every
+   scrolled frame, and glass is the products' chrome, not the company's. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   border-bottom: 1px solid var(--hairline);
-  box-shadow: 0 14px 42px rgba(2, 4, 8, 0.18);
-  backdrop-filter: blur(16px) saturate(115%);
-  -webkit-backdrop-filter: blur(16px) saturate(115%);
+  background: var(--nyx);
+  box-shadow: 0 14px 42px rgba(2, 4, 8, 0.22);
   opacity: 0;
-  transform: translateY(-100%);
-  pointer-events: none;
-  transition:
-    opacity var(--dur-slow) var(--ease-out),
-    transform var(--dur-slow) var(--ease-out);
+  transition: opacity var(--dur-slow) var(--ease-standard);
 }
-.nav.is-visible {
+.site-header.is-solid::before,
+.site-header.is-open::before {
   opacity: 1;
-  transform: none;
-  pointer-events: auto;
 }
-.nav__inner {
+
+.site-header__inner {
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-  max-width: var(--shell-max);
+  gap: clamp(16px, 2.6vw, 40px);
 }
-.nav__brand {
+
+.brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
+  margin-right: auto;
+  color: var(--text-primary);
+}
+.brand:hover {
+  color: var(--text-primary);
+}
+.brand__mark {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.brand:hover .brand__mark {
+  transform: translateY(-1px) scale(1.04);
+}
+/* Tracked wide like the wordmark in the logo. The negative margin takes back
+   the space letter-spacing leaves after the last letter. */
+.brand__word {
+  margin-right: -0.2em;
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: var(--tracking-caps);
-  color: var(--text-primary);
+  font-size: 1.12rem;
+  letter-spacing: 0.2em;
+  line-height: 1;
 }
-.nav__brand:hover {
-  color: var(--text-primary);
-}
-.nav__links {
-  display: flex;
+
+.site-nav {
+  display: none;
   align-items: center;
-  gap: clamp(14px, 2.4vw, 30px);
+  gap: clamp(18px, 2.3vw, 34px);
 }
-.nav__link {
+.site-nav__link {
   position: relative;
-  padding-block: 18px;
+  padding-block: 10px;
   font-size: var(--fs-body-sm);
   font-weight: 500;
   color: var(--text-secondary);
+  white-space: nowrap;
 }
-.nav__link::after {
+.site-nav__link::after {
   content: "";
   position: absolute;
   right: 50%;
-  bottom: 9px;
+  bottom: 2px;
   left: 50%;
   height: 1px;
   background: var(--accent-primary);
@@ -289,17 +345,140 @@
     right var(--dur-base) var(--ease-out),
     left var(--dur-base) var(--ease-out);
 }
-.nav__link:hover {
+.site-nav__link:hover,
+.site-nav__link[aria-current="location"] {
   color: var(--text-primary);
 }
-.nav__link[aria-current="location"] {
-  color: var(--text-primary);
-}
-.nav__link[aria-current="location"]::after {
+.site-nav__link:hover::after,
+.site-nav__link[aria-current="location"]::after {
   right: 0;
   left: 0;
 }
-.nav__progress {
+
+.site-header__action {
+  display: none;
+  align-self: center;
+}
+/* A page with no links has no menu to hold its action, so the action stays
+   in the bar at every width. */
+.site-header.is-plain .site-header__action {
+  display: inline-flex;
+}
+
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  margin-right: -6px;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.menu-toggle__icon {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 12px;
+}
+.menu-toggle__icon span {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    top var(--dur-base) var(--ease-out);
+}
+.menu-toggle__icon span:first-child {
+  top: 1px;
+}
+.menu-toggle__icon span:last-child {
+  top: 9px;
+}
+.site-header.is-open .menu-toggle__icon span {
+  top: 5px;
+}
+.site-header.is-open .menu-toggle__icon span:first-child {
+  transform: rotate(45deg);
+}
+.site-header.is-open .menu-toggle__icon span:last-child {
+  transform: rotate(-45deg);
+}
+
+/* The menu takes the whole screen under the bar. While it is open the page
+   behind it is inert and does not scroll. */
+.site-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: calc(100vh - var(--nav-bar-h));
+  height: calc(100dvh - var(--nav-bar-h));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background:
+    radial-gradient(520px 380px at 100% 0%, var(--accent-glow), transparent 70%), var(--nyx);
+}
+.site-menu[hidden] {
+  display: none;
+}
+.site-menu__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-block: 18px 48px;
+}
+.site-menu__inner ul {
+  border-top: 1px solid var(--hairline-strong);
+}
+.site-menu__link {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 7.4vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+.site-menu__link:hover {
+  color: var(--accent-secondary);
+}
+.site-menu__index {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  color: var(--gleam);
+}
+html.menu-open {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .site-menu:not([hidden]) .site-menu__inner {
+    animation: menu-in 340ms var(--ease-out) both;
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+.site-header__progress {
   --scroll-progress: 0;
   position: absolute;
   right: 0;
@@ -312,15 +491,33 @@
   transform-origin: left center;
   will-change: transform;
 }
-@media (max-width: 640px) {
-  .nav__link {
+.site-header.is-open .site-header__progress {
+  visibility: hidden;
+}
+
+@media (min-width: 900px) {
+  .site-nav {
+    display: flex;
+  }
+  .site-header__action {
+    display: inline-flex;
+  }
+  .menu-toggle,
+  .site-menu {
     display: none;
+  }
+}
+@media (max-width: 380px) {
+  .site-header.is-plain .site-header__action {
+    font-size: var(--fs-micro);
   }
 }
 
 /* ================================================================
-   HERO: one composition. Full-bleed 3D atmosphere, the wordmark,
-   one headline, one sentence, one CTA pair. Nothing else.
+   HERO: one composition. The logo, large and alive, and beside it the
+   three lines its lockups carry: the wordmark, the tagline under its
+   diamond, and the mission line as the headline. Then one sentence and
+   one pair of actions. Nothing else.
    ================================================================ */
 
 .hero {
@@ -330,137 +527,248 @@
   display: grid;
   grid-template-rows: 1fr auto;
   overflow: hidden;
+  overflow: clip;
   isolation: isolate;
 }
 
-/* The 3D canvas / poster layer. Edge to edge, never interactive. */
-.hero__stage {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-.hero__layer {
-  position: absolute;
-  inset: 0;
-  transition: opacity 900ms var(--ease-out);
-}
-.hero__layer--hidden {
-  opacity: 0;
-}
-
-/* A top vignette and a wash at the very bottom, for depth and for the seam
-   into the next section. The owl's lower body dissolves in its own shader,
-   so no scrim is doing structural work here. */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgba(7, 11, 18, 0.45) 0%, rgba(7, 11, 18, 0) 16%),
-    linear-gradient(
-      to top,
-      rgba(7, 11, 18, 0.92) 0%,
-      rgba(7, 11, 18, 0.5) 12%,
-      rgba(7, 11, 18, 0) 26%
-    );
-}
-
-/* The hero's own grid. Narrow viewports stack (owl above, copy below)
-   and the owl simply takes whatever height the copy leaves. */
+/* Narrow viewports stack: the mark above, the copy below, and the mark
+   takes whatever height the copy leaves it, down to a floor. */
 .hero__grid {
   grid-row: 1;
   position: relative;
-  z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(120px, 1fr) auto;
-  padding-block: calc(var(--nav-bar-h) + clamp(6px, 2vh, 18px)) clamp(18px, 3.5vh, 40px);
-  max-width: var(--shell-max);
+  grid-template-rows: minmax(clamp(200px, 32vh, 300px), 1fr) auto;
+  row-gap: clamp(8px, 1.6vh, 20px);
+  padding-block: calc(var(--nav-bar-h) + clamp(6px, 1.6vh, 18px)) clamp(18px, 3.5vh, 40px);
+}
+@supports (height: 1svh) {
+  .hero__grid {
+    grid-template-rows: minmax(clamp(200px, 32svh, 300px), 1fr) auto;
+  }
 }
 
-/* An empty box that exists only to be measured. CSS decides where the owl
-   belongs at each breakpoint and the 3D scene fits itself into whatever
-   rectangle this lands on, so the composition has one owner rather than a
-   media query on one side and a camera calculation on the other. */
-.hero__slot {
+/* The cell the mark lives in. It is a size container, so the stage inside
+   can be sized against this cell rather than the viewport: CSS already
+   decides where the mark goes at each breakpoint, and this lets it decide
+   how large it can be there as well.
+
+   --fit-w and --fit-h are the fraction of the stage that has to fit inside
+   the cell, across and down. The stage is 1080 units wide; the mark's own
+   ring is 70% of that, its degree labels reach 81%, the inner orbit 89% and
+   the outer orbit 98%. So 0.83 across keeps the labels inside the column
+   and lets the orbits run off the screen edge, which is what they are for. */
+.hero__art {
+  --fit-w: 0.83;
+  --fit-h: 0.76;
+  --stage-max: 46rem;
   grid-row: 1;
-  justify-self: center;
-  width: min(100%, 420px);
+  position: relative;
+  min-width: 0;
+  container-type: size;
   pointer-events: none;
 }
-/* Between a phone and the split, there is room to put the owl over to one
-   side. Copy low and left against owl high and right is the same diagonal
-   the split makes, so the two layouts read as one idea. */
-@media (min-width: 620px) {
-  .hero__slot {
-    justify-self: end;
-    width: min(76%, 470px);
+
+.mark-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(100vw, 46vh);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+@supports (width: 1cqw) {
+  .mark-stage {
+    width: min(calc(100cqw / var(--fit-w)), calc(100cqh / var(--fit-h)), var(--stage-max));
+  }
+}
+
+.mark-stage__glow {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(233, 180, 92, 0.24) 0%,
+    rgba(233, 180, 92, 0.09) 36%,
+    transparent 66%
+  );
+}
+.orbit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* The outer orbit is wider than a phone, where it would only ever be seen
+   as two stray arcs behind the header and the wordmark. */
+.orbit--outer {
+  display: none;
+}
+/* The mark is 1000 of the stage's 1080 units, placed so the centre of its
+   ring (which is the line its eyes sit on) is the centre of the stage. */
+.mark-stage__mark {
+  position: absolute;
+  top: 8.74%;
+  left: 3.7037%;
+  width: 92.5926%;
+  height: auto;
+}
+/* A pulse of light over each eye. The eyes sit on the stage's horizontal
+   centre line, 13.15% either side of the middle. */
+.mark-stage__eye {
+  position: absolute;
+  top: 50%;
+  width: 25%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 226, 160, 0.32) 0%,
+    rgba(245, 198, 107, 0.2) 30%,
+    rgba(233, 180, 92, 0.08) 54%,
+    transparent 70%
+  );
+  opacity: 0.6;
+}
+.mark-stage__eye--left {
+  left: 36.848%;
+}
+.mark-stage__eye--right {
+  left: 63.152%;
+}
+
+/* Everything that moves on the stage is opacity or transform on its own
+   layer, so the compositor carries all of it and the main thread is idle
+   while the page sits open. It stops when the hero is off screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .mark-stage {
+    animation: stage-arrive 1100ms var(--ease-out) both;
+  }
+  .orbit {
+    will-change: transform;
+  }
+  .orbit--inner {
+    animation: orbit-turn 180s linear infinite;
+  }
+  .orbit--outer {
+    animation: orbit-turn 300s linear infinite reverse;
+  }
+  .mark-stage__glow {
+    animation: glow-breathe 9s var(--ease-standard) infinite;
+  }
+  .mark-stage__eye {
+    animation: eye-glow 5.4s ease-in-out infinite;
+  }
+  .mark-stage[data-paused] > * {
+    animation-play-state: paused;
+  }
+}
+@keyframes stage-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes orbit-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+@keyframes eye-glow {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
   }
 }
 
 .hero__content {
   grid-row: 2;
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: clamp(16px, 2.4vh, 28px);
 }
-
-/* Contrast pad under the copy, for the stacked layout where the copy sits
-   in front of the owl. The split layout darkens its whole left flank
-   instead and switches this off. */
+/* In the stacked layout the inner orbit runs a little way behind the top of
+   the copy. This pad keeps the lettering clear of it. The split layout puts
+   the copy beside the mark instead and switches the pad off. */
 .hero__content::before {
   content: "";
   position: absolute;
   z-index: -1;
-  left: 50%;
+  top: clamp(-40px, -4vh, -20px);
   bottom: clamp(-40px, -5vh, -18px);
-  top: clamp(-170px, -14vh, -80px);
+  left: 50%;
   width: 100vw;
   translate: -50% 0;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(7, 11, 18, 0) 0%,
-    rgba(7, 11, 18, 0.52) 42%,
-    rgba(7, 11, 18, 0.72) 100%
+    rgba(7, 11, 18, 0.72) 30%,
+    rgba(7, 11, 18, 0.84) 100%
   );
 }
 
-/* The wordmark and the headline are one <h1> so the page has a single,
-   fully descriptive top-level heading; they are only styled apart. */
+/* The wordmark, the tagline and the headline are one <h1>; they are only
+   styled apart. */
 .hero__title {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(12px, 1.8vh, 22px);
+  gap: clamp(13px, 1.9vh, 22px);
   margin: 0;
 }
 
+/* Set like the wordmark in the logo: Marcellus, tracked wide, in the same
+   top-lit silver. The second background is a single glint that crosses the
+   letters once as the page arrives and then parks off the edge, so nothing
+   here repaints while the page is at rest. */
 .hero__wordmark {
   display: block;
+  margin-right: -0.13em;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--fs-wordmark);
   line-height: 0.86;
-  letter-spacing: 0.055em;
-  background: linear-gradient(
-    110deg,
-    #f4f8ff 0%,
-    #f4f8ff 28%,
-    var(--accent-secondary) 52%,
-    #f4f8ff 72%,
-    var(--accent-primary) 116%
-  );
-  background-size: 180% 100%;
+  letter-spacing: 0.13em;
+  background-image:
+    linear-gradient(100deg, transparent 42%, rgba(255, 236, 190, 0.95) 50%, transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #e4edf8 48%, #8da0bc 100%);
+  background-repeat: no-repeat;
+  background-size:
+    300% 100%,
+    100% 100%;
+  background-position:
+    150% 0,
+    0 0;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  filter: drop-shadow(0 12px 40px rgba(7, 11, 18, 0.85));
 }
 @supports not ((background-clip: text) or (-webkit-background-clip: text)) {
   .hero__wordmark {
@@ -470,12 +778,61 @@
   }
 }
 
+/* The logo's calibration rule and diamond, then the line it sets under the
+   wordmark. Silver-blue rather than the gold of a section eyebrow, as drawn. */
+.hero__tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.hero__tagline-rule {
+  display: none;
+  flex: none;
+  width: clamp(22px, 3vw, 44px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--hairline-strong));
+}
+/* Sized in em, so the diamond keeps its proportion to the line as the line
+   grows with the wordmark. */
+.hero__tagline .dot {
+  width: 0.62em;
+  height: 1.06em;
+}
+/* The line is one line. Its tracking gives way before it wraps. */
+@media (max-width: 359px) {
+  .hero__tagline {
+    letter-spacing: 0.13em;
+  }
+}
+@media (min-width: 420px) {
+  .hero__tagline {
+    letter-spacing: 0.28em;
+  }
+  .hero__tagline-rule {
+    display: block;
+  }
+}
+/* In the logo the line is about a tenth the size of the wordmark above it.
+   It keeps that ratio as the wordmark grows, instead of staying a caption. */
+@media (min-width: 620px) {
+  .hero__tagline {
+    font-size: clamp(0.6875rem, 1.5vw, 0.8125rem);
+  }
+}
+
 .hero__headline {
   display: block;
-  max-width: 22ch;
+  max-width: 26ch;
   font-family: var(--font-display);
   font-weight: 400;
-  /* As with the wordmark, height-aware so the hero stays one screen. */
+  /* Height-aware, like the wordmark, so the hero stays one screen. */
   font-size: clamp(1.5rem, min(3vw, 4vh), 2.2rem);
   line-height: var(--lh-snug);
   color: var(--text-primary);
@@ -490,57 +847,73 @@
   text-wrap: pretty;
 }
 
+/* The two actions share a baseline, so "Explore" reads as the second half
+   of one line rather than a label floating beside a button. */
 .hero__cta {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   gap: clamp(18px, 2.4vw, 32px);
   margin-top: clamp(4px, 1.2vh, 12px);
 }
+.hero__cta .link-arrow {
+  align-self: auto;
+}
 
+/* The copy arrives line by line, quickly: everything is readable well inside
+   a second, because on a slow phone every millisecond of choreography is
+   added to the wait for the page itself. */
 @media (prefers-reduced-motion: no-preference) {
   .hero__wordmark,
+  .hero__tagline,
   .hero__headline,
   .hero__sub,
-  .hero__cta {
-    opacity: 0;
-    animation: hero-arrive 760ms var(--ease-out) forwards;
+  .hero__cta,
+  .hero__foot {
+    animation: hero-arrive 560ms var(--ease-out) both;
   }
   .hero__wordmark {
     animation:
-      hero-arrive 820ms var(--ease-out) 80ms forwards,
-      wordmark-gleam 9s var(--ease-standard) 1.2s infinite alternate;
+      hero-arrive 600ms var(--ease-out) both,
+      wordmark-glint 2600ms var(--ease-standard) 600ms both;
+  }
+  .hero__tagline {
+    animation-delay: 60ms;
   }
   .hero__headline {
-    animation-delay: 180ms;
+    animation-delay: 120ms;
   }
   .hero__sub {
-    animation-delay: 290ms;
+    animation-delay: 180ms;
   }
   .hero__cta {
-    animation-delay: 400ms;
+    animation-delay: 240ms;
+  }
+  .hero__foot {
+    animation-delay: 420ms;
   }
 }
 
 @keyframes hero-arrive {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-
-@keyframes wordmark-gleam {
-  0%,
-  28% {
-    background-position: 90% 50%;
+@keyframes wordmark-glint {
+  from {
+    background-position:
+      150% 0,
+      0 0;
   }
-  72%,
-  100% {
-    background-position: 0% 50%;
+  to {
+    background-position:
+      -50% 0,
+      0 0;
   }
 }
 @media (max-width: 360px) {
@@ -553,19 +926,24 @@
   }
 }
 
-/* Scroll affordance, on the spine rather than centred, so the eye leaves
-   the hero from the same edge every other section starts on. */
+/* The foot of the hero: the scroll cue on the spine, where every section
+   below starts, and under the mark the four words the logo sets beneath
+   itself. They are also the four principles further down the page. */
 .hero__foot {
   grid-row: 2;
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
   padding-block-end: clamp(16px, 3vh, 30px);
-  max-width: var(--shell-max);
 }
 .hero__scroll {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-self: start;
   gap: 10px;
   color: var(--text-tertiary);
   font-family: var(--font-mono);
@@ -599,153 +977,132 @@
     opacity: 1;
   }
 }
+/* One line, as in the logo: four words and three gold points. */
+.hero__pillars {
+  display: none;
+  justify-content: flex-end;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-tertiary);
+}
+.hero__pillars li + li::before {
+  content: "·";
+  margin-inline: 0.8em;
+  color: var(--gleam);
+}
+@media (min-width: 720px) {
+  .hero__pillars {
+    display: flex;
+  }
+}
+@media (min-width: 1200px) {
+  .hero__pillars {
+    letter-spacing: 0.24em;
+  }
+  .hero__pillars li + li::before {
+    margin-inline: 1.1em;
+  }
+}
 @media (max-height: 680px) {
   .hero__foot {
     display: none;
   }
 }
 
+/* Between a phone and the split there is room for both orbits. */
+@media (min-width: 620px) {
+  .hero__art {
+    --fit-h: 0.84;
+  }
+  .orbit--outer {
+    display: block;
+  }
+}
+/* A short phone: the mark gives up a little height and the copy closes up,
+   which is what keeps the button on the first screen. */
+@media (max-width: 619.98px) and (max-height: 700px) {
+  .hero__grid {
+    grid-template-rows: minmax(188px, 1fr) auto;
+  }
+  .hero__content {
+    gap: 14px;
+  }
+  .hero__title {
+    gap: 11px;
+  }
+}
+
 /* ---- the split hero ----------------------------------------------------
-   Copy on the spine, owl in its own column to the right. The two stop
-   competing for one vertical axis, which is what lets the owl be large
-   and the wordmark be the first thing read at the same time. */
-@media (min-width: 980px) {
+   Copy on the spine, the mark in its own column to the right. The two stop
+   competing for one vertical axis, which is what lets the mark be large and
+   the wordmark be the first thing read at the same time. It needs a screen
+   that is wider than it is tall: a large tablet held upright keeps the
+   stack, where the mark can use the height. A phone on its side gets the
+   split as well: stacked, the mark alone would fill its screen and push
+   every word below the fold. */
+@media (min-width: 980px) and (min-aspect-ratio: 1/1), (min-width: 640px) and (max-height: 520px) {
   .hero__grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
     grid-template-rows: minmax(0, 1fr);
     column-gap: clamp(24px, 3.5vw, 64px);
   }
-  .hero__slot {
+  /* Across, the inner orbit stays inside the column and the outer one runs
+     into the gutter. Down, both stay between the header and the foot. */
+  .hero__art {
+    --fit-w: 0.9;
+    --fit-h: 0.985;
+    --stage-max: 58rem;
     grid-area: 1 / 2;
-    justify-self: stretch;
-    width: auto;
-    margin-block: clamp(8px, 2vh, 28px);
   }
   .hero__content {
     grid-area: 1 / 1;
     align-self: center;
     max-width: 40rem;
   }
-  /* The copy is beside the owl now, not on top of it, so the pad under it
-     gives way to a wash down the whole left flank. */
   .hero__content::before {
     display: none;
   }
-  .hero__scrim {
-    background:
-      linear-gradient(
-        to right,
-        rgba(7, 11, 18, 0.88) 0%,
-        rgba(7, 11, 18, 0.58) 24%,
-        rgba(7, 11, 18, 0) 52%
-      ),
-      linear-gradient(to bottom, rgba(7, 11, 18, 0.5) 0%, rgba(7, 11, 18, 0) 18%),
-      linear-gradient(
-        to top,
-        rgba(7, 11, 18, 0.92) 0%,
-        rgba(7, 11, 18, 0.5) 12%,
-        rgba(7, 11, 18, 0) 26%
-      );
-  }
-  /* Answers to its column rather than the viewport: 15vw would run past
-     the gutter and into the owl. */
+  /* Answers to its column rather than the full width, and still to the
+     height, so a short window keeps the whole block on one screen. */
   .hero__wordmark {
-    font-size: clamp(4.5rem, 8vw, 7.5rem);
+    font-size: clamp(3rem, min(7.6vw, 17vh), 7.4rem);
+  }
+  .hero__tagline {
+    font-size: clamp(0.6875rem, min(0.78vw, 1.75vh), 0.8125rem);
   }
   .hero__headline {
-    max-width: 19ch;
-    font-size: clamp(1.7rem, 2.3vw, 2.6rem);
+    font-size: clamp(1.35rem, min(2.3vw, 5.4vh), 2.6rem);
+  }
+  /* The foot takes the hero's own columns, so the four words sit centred
+     under the mark the way they do in the logo. */
+  .hero__foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+    column-gap: clamp(24px, 3.5vw, 64px);
+  }
+  .hero__pillars {
+    justify-content: center;
   }
 }
-
-/* ================================================================
-   HERO POSTER: the static fallback. Pure CSS/SVG, so it costs no
-   bytes beyond the markup and is the LCP element on every load.
-   ================================================================ */
-
-/* The mark's position tracks the owl slot rather than the viewport centre,
-   so the fallback and the canvas compose the page the same way. */
-.poster {
-  --poster-x: 50%;
-  --poster-y: 27%;
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-@media (min-width: 980px) {
-  .poster {
-    --poster-x: 74%;
-    --poster-y: 49%;
+/* On a screen that short every pixel of spacing is a pixel of the button. */
+@media (min-width: 640px) and (max-height: 520px) {
+  .hero__content {
+    gap: 12px;
   }
-}
-.poster__glow {
-  position: absolute;
-  top: var(--poster-y);
-  left: var(--poster-x);
-  width: min(86vw, 660px);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    var(--accent-glow-strong) 0%,
-    rgba(233, 180, 92, 0.1) 34%,
-    transparent 68%
-  );
-  filter: blur(14px);
-}
-.poster__mark {
-  position: absolute;
-  top: var(--poster-y);
-  left: var(--poster-x);
-  width: min(34vw, 215px);
-  translate: -50% -50%;
-  color: var(--silver);
-  opacity: 0.92;
-}
-.poster__rings {
-  position: absolute;
-  top: var(--poster-y);
-  left: var(--poster-x);
-  width: min(74vw, 470px);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  color: var(--gleam);
-  opacity: 0.38;
-}
-@media (min-width: 980px) {
-  .poster__mark {
-    width: min(24vw, 330px);
+  .hero__title {
+    gap: 10px;
   }
-  .poster__rings {
-    width: min(34vw, 470px);
+  .hero__wordmark {
+    font-size: clamp(2.8rem, min(7.6vw, 15vh), 7.4rem);
   }
-  .poster__glow {
-    width: min(46vw, 660px);
+  .hero__sub {
+    font-size: 1rem;
   }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .poster__rings {
-    animation: poster-drift 34s linear infinite;
-  }
-  .poster__glow {
-    animation: poster-breathe 9s var(--ease-standard) infinite;
-  }
-}
-@keyframes poster-drift {
-  to {
-    rotate: 360deg;
-  }
-}
-@keyframes poster-breathe {
-  0%,
-  100% {
-    opacity: 0.72;
-    scale: 1;
-  }
-  50% {
-    opacity: 1;
-    scale: 1.05;
+  .hero__cta {
+    margin-top: 0;
   }
 }
 
@@ -764,9 +1121,10 @@
     gap: clamp(64px, 10vw, 170px);
     align-items: start;
   }
-  .what .section__head {
+  /* The title keeps the reader company down the three paragraphs. */
+  .what__head {
     position: sticky;
-    top: calc(var(--nav-bar-h) + 64px);
+    top: calc(var(--nav-bar-h) + 48px);
   }
 }
 .what__body {
@@ -787,82 +1145,40 @@
   color: var(--text-primary);
   line-height: 1.45;
 }
+
 /* ================================================================
    PRODUCTS
-   A catalogue, not a card wall: numbered entries on hairlines, with a
-   mono rail on the left that puts each product's index and status on
-   the same spine every section starts from.
+   A catalogue, not a card wall, in two parts that cannot be mistaken
+   for each other. What can be opened today is set as full rows on
+   hairlines, each with a way in. What is still being built is set
+   smaller and quieter underneath, and is never a link.
    ================================================================ */
 
+.product-group {
+  margin-top: clamp(40px, 6.5vh, 72px);
+}
+.product-group + .product-group {
+  margin-top: clamp(48px, 8vh, 96px);
+}
+.product-group__label {
+  padding-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
 .products {
-  margin-top: clamp(32px, 5vh, 60px);
   border-top: 1px solid var(--hairline-strong);
 }
 
 .product {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px clamp(24px, 4vw, 72px);
-  padding: clamp(28px, 4.5vh, 48px) clamp(0px, 1.8vw, 26px);
   border-bottom: 1px solid var(--hairline);
   isolation: isolate;
   transition: border-color var(--dur-base) var(--ease-standard);
-}
-.product::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(233, 180, 92, 0.11),
-    rgba(126, 147, 176, 0.035) 48%,
-    transparent 82%
-  );
-  opacity: 0;
-  transform: scaleX(0.76);
-  transform-origin: left center;
-  transition:
-    opacity var(--dur-base) var(--ease-standard),
-    transform 520ms var(--ease-out);
-}
-.product::after {
-  content: "";
-  position: absolute;
-  top: 18%;
-  bottom: 18%;
-  left: 0;
-  width: 1px;
-  background: var(--accent-primary);
-  box-shadow: 0 0 12px var(--accent-glow-strong);
-  opacity: 0;
-  transform: scaleY(0.3);
-  transition:
-    opacity var(--dur-base) var(--ease-standard),
-    transform 520ms var(--ease-out);
-}
-@media (min-width: 1040px) {
-  .product {
-    grid-template-columns: 7.5rem minmax(0, 0.78fr) minmax(0, 1.22fr);
-    align-items: start;
-    row-gap: 20px;
-  }
-  .product__meta,
-  .product__head {
-    grid-row: 1 / span 3;
-  }
-  .product__meta {
-    grid-column: 1;
-  }
-  .product__head {
-    grid-column: 2;
-  }
-  .product__text,
-  .product__facets,
-  .product__action {
-    grid-column: 3;
-  }
 }
 
 .product__meta {
@@ -873,12 +1189,6 @@
   font-size: var(--fs-micro);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-}
-@media (min-width: 1040px) {
-  .product__meta {
-    flex-direction: column;
-    gap: 9px;
-  }
 }
 .product__index {
   color: var(--gleam);
@@ -908,7 +1218,6 @@
 @keyframes live-pulse {
   50% {
     opacity: 0.45;
-    box-shadow: 0 0 2px currentColor;
   }
 }
 
@@ -934,7 +1243,6 @@
   letter-spacing: var(--tracking-mono);
   color: var(--gleam);
 }
-
 .product__text {
   max-width: 58ch;
   color: var(--text-secondary);
@@ -946,8 +1254,7 @@
 .product__action {
   transition: transform 460ms var(--ease-out);
 }
-/* The old chips said the same thing inside pill outlines. As a spaced
-   mono line they read as a specification, which is what they are. */
+/* A spaced mono line reads as a specification, which is what it is. */
 .product__facets {
   display: flex;
   flex-wrap: wrap;
@@ -959,17 +1266,97 @@
   color: var(--text-tertiary);
 }
 
-/* Everything the row says is dimmer for products that are not shipping. */
-.product--pending .product__name {
-  color: var(--text-secondary);
+/* ---- a product that can be opened: the full row ---- */
+
+/* The row's copy stays on the spine. What marks a row under the pointer is
+   drawn in the gutter to its left instead: a gold rule and a wash that
+   starts there and dies away across the row. */
+.product--row {
+  --row-bleed: clamp(0px, 1.8vw, 26px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px clamp(24px, 4vw, 72px);
+  padding-block: clamp(28px, 4.5vh, 48px);
 }
-.product--pending .product__tagline {
-  color: var(--text-tertiary);
+.product--row::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 calc(-1 * var(--row-bleed));
+  background: linear-gradient(
+    90deg,
+    rgba(233, 180, 92, 0.11),
+    rgba(126, 147, 176, 0.035) 48%,
+    transparent 82%
+  );
+  opacity: 0;
+  transform: scaleX(0.76);
+  transform-origin: left center;
+  transition:
+    opacity var(--dur-base) var(--ease-standard),
+    transform 520ms var(--ease-out);
+}
+.product--row::after {
+  content: "";
+  position: absolute;
+  top: 18%;
+  bottom: 18%;
+  left: calc(-1 * var(--row-bleed));
+  width: 1px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 12px var(--accent-glow-strong);
+  opacity: 0;
+  transform: scaleY(0.3);
+  transition:
+    opacity var(--dur-base) var(--ease-standard),
+    transform 520ms var(--ease-out);
+}
+/* A tablet has the width for two columns: the name on the spine, what the
+   product does beside it, level with the name. */
+@media (min-width: 760px) and (max-width: 1039.98px) {
+  .product--row {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    align-items: start;
+  }
+  .product--row .product__meta {
+    grid-column: 1 / -1;
+  }
+  .product--row .product__head {
+    grid-column: 1;
+    grid-row: 2 / span 3;
+  }
+  .product--row .product__text,
+  .product--row .product__facets,
+  .product--row .product__action {
+    grid-column: 2;
+  }
+}
+@media (min-width: 1040px) {
+  .product--row {
+    grid-template-columns: 7.5rem minmax(0, 0.78fr) minmax(0, 1.22fr);
+    align-items: start;
+    row-gap: 20px;
+  }
+  .product--row .product__meta,
+  .product--row .product__head {
+    grid-row: 1 / span 3;
+  }
+  .product--row .product__meta {
+    grid-column: 1;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .product--row .product__head {
+    grid-column: 2;
+  }
+  .product--row .product__text,
+  .product--row .product__facets,
+  .product--row .product__action {
+    grid-column: 3;
+  }
 }
 
-.product--linked:hover .product__name {
-  color: var(--accent-secondary);
-}
+.product--linked:hover .product__name,
 .product--linked:hover .product__index {
   color: var(--accent-secondary);
 }
@@ -986,14 +1373,16 @@
     transform: scaleY(1);
   }
   .product--linked:hover .product__head {
-    transform: translateX(5px);
+    transform: translateX(4px);
   }
   .product--linked:hover .product__text,
   .product--linked:hover .product__facets,
   .product--linked:hover .product__action {
-    transform: translateX(8px);
+    transform: translateX(6px);
   }
 }
+/* The whole row is the link's hit area, so a tap anywhere on it opens the
+   product. The link itself stays the only focusable thing in the row. */
 .product--linked .link-arrow--lead::after {
   content: "";
   position: absolute;
@@ -1007,14 +1396,52 @@
   outline: none;
 }
 
+/* ---- a product that cannot be opened yet: a note ---- */
+
+.products--notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top-color: var(--hairline);
+}
+.product--note {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-block: clamp(24px, 3.6vh, 32px) clamp(26px, 4vh, 36px);
+}
+.product--note .product__meta {
+  justify-content: space-between;
+}
+.product--note .product__name {
+  font-size: clamp(1.4rem, 1.9vw, 1.75rem);
+}
+.product--note .product__text {
+  font-size: var(--fs-body-sm);
+}
+.product--note .product__facets {
+  margin-top: auto;
+  padding-top: 4px;
+}
+@media (min-width: 860px) {
+  .products--notes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  .product--note {
+    border-bottom: 0;
+  }
+}
+/* Everything a note says is dimmer than a product that is shipping. */
+.product--pending .product__name {
+  color: var(--text-secondary);
+}
+.product--pending .product__tagline {
+  color: var(--text-tertiary);
+}
 /* The open slot is a placeholder, so it must not compete typographically
    with the products that actually exist. */
 .product--future .product__name {
-  font-size: var(--fs-title);
   color: var(--text-secondary);
-}
-.product--future .product__text {
-  font-size: var(--fs-body-sm);
 }
 .product--future .product__index {
   color: var(--text-tertiary);
@@ -1059,7 +1486,7 @@
   border-top: 1px solid var(--hairline);
   background: linear-gradient(180deg, rgba(220, 230, 244, 0.025), transparent 74%);
   transition:
-    transform 420ms var(--ease-out),
+    translate 420ms var(--ease-out),
     border-color var(--dur-base) var(--ease-standard);
 }
 .principle__index {
@@ -1084,9 +1511,11 @@
   color: var(--text-secondary);
   text-wrap: pretty;
 }
+/* The lift is on `translate`, not `transform`, so it composes with the
+   reveal's own transform instead of fighting it for the property. */
 @media (hover: hover) and (pointer: fine) {
   .principle:hover {
-    transform: translateY(-5px);
+    translate: 0 -5px;
     border-top-color: var(--border-accent);
   }
   .principle:hover .principle__index {
@@ -1113,6 +1542,10 @@
 
 /* ================================================================
    FOOTER
+   One footer for every page, in two lengths. The home page's opens with
+   the closing statement and the contact line and signs off with the
+   wordmark; the product and legal pages get the logo, the same three
+   columns and the copyright line.
    ================================================================ */
 
 .footer {
@@ -1124,25 +1557,37 @@
     radial-gradient(900px 420px at 4% 8%, rgba(233, 180, 92, 0.09), transparent 68%),
     linear-gradient(to bottom, rgba(10, 16, 27, 0.95), var(--nyx));
 }
+.footer--compact {
+  margin-top: clamp(56px, 9vh, 112px);
+}
+/* Anchored to the shell rather than the viewport, or on a wide display the
+   back-to-top link drifts off into the gutter with nothing beside it. */
+.footer .shell {
+  position: relative;
+}
 .footer__statement {
   display: grid;
   grid-template-columns: minmax(7rem, 0.42fr) minmax(0, 1fr);
   gap: clamp(32px, 7vw, 120px);
   padding-block: clamp(64px, 11vh, 120px);
   border-bottom: 1px solid var(--hairline-strong);
+  scroll-margin-top: var(--nav-bar-h);
+}
+.footer__statement .eyebrow {
+  align-self: start;
+  margin-top: 0.9rem;
+  white-space: nowrap;
 }
 .footer__statement-main {
   display: grid;
   gap: clamp(28px, 5vw, 72px);
   justify-items: start;
 }
-.footer__statement-main > p {
+.footer__statement-main > h2 {
   max-width: 13ch;
-  font-family: var(--font-display);
   font-size: clamp(2.8rem, 7vw, 7.4rem);
   line-height: 0.96;
   letter-spacing: -0.035em;
-  color: var(--text-primary);
   text-wrap: balance;
 }
 .footer__contact {
@@ -1161,33 +1606,109 @@
   gap: 20px;
   border-color: var(--accent-primary);
 }
+
+/* On a phone the brand takes the full width and the link lists sit two
+   abreast under it, which roughly halves the height of the footer. A
+   tablet has room for all three lists in a row, and only a desktop has
+   room for the brand beside them: squeezed in any earlier, the tagline
+   and the email address both break in the middle. */
 .footer__grid {
   display: grid;
-  gap: clamp(32px, 5vw, 56px);
+  gap: clamp(36px, 5vw, 56px) clamp(24px, 5vw, 56px);
   padding-block: clamp(48px, 8vh, 82px);
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-@media (min-width: 720px) {
-  .footer__grid {
-    grid-template-columns: minmax(18rem, 2.2fr) repeat(3, minmax(8rem, 0.8fr));
-  }
+.footer--compact .footer__grid {
+  padding-block: clamp(44px, 7vh, 72px);
 }
 .footer__brand {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 34ch;
+  align-items: flex-start;
+  gap: 20px;
 }
+@media (min-width: 620px) {
+  .footer__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 760px) and (max-width: 1179.98px) {
+  .footer__brand {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+}
+@media (min-width: 1180px) {
+  .footer__grid {
+    grid-template-columns: minmax(22rem, 2.2fr) repeat(3, minmax(10.5rem, 0.8fr));
+  }
+  .footer__brand {
+    grid-column: auto;
+  }
+}
+/* The logo as a lockup: the owl, the wordmark, and the line set under it. */
 .footer__lockup {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  letter-spacing: var(--tracking-caps);
+  gap: 16px;
   color: var(--text-primary);
 }
+.footer__lockup:hover {
+  color: var(--text-primary);
+}
+.footer__mark {
+  flex: none;
+  width: 60px;
+  height: 60px;
+}
+.footer__word {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.footer__name {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: 0.2em;
+}
+.footer__tagline {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+/* One line under the wordmark, as in the logo. On the narrowest phones the
+   tracking gives way rather than the line. */
+@media (max-width: 400px) {
+  .footer__tagline {
+    letter-spacing: 0.1em;
+  }
+}
+@media (max-width: 359px) {
+  /* Half of a screen this narrow cannot hold an email address. */
+  .footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .footer__lockup {
+    gap: 12px;
+  }
+  .footer__mark {
+    width: 48px;
+    height: 48px;
+  }
+  .footer__tagline {
+    letter-spacing: 0.04em;
+  }
+}
 .footer__tag {
+  max-width: 34ch;
   font-size: var(--fs-body-sm);
   color: var(--text-secondary);
   line-height: var(--lh-normal);
@@ -1213,13 +1734,26 @@
   min-height: 28px;
   font-size: var(--fs-body-sm);
   color: var(--text-secondary);
+  overflow-wrap: anywhere;
 }
 .footer__col a:hover {
   color: var(--accent-primary);
 }
+/* A product that is not out yet is named, with its status under it, and is
+   plain text rather than a link. */
 .footer__col span {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-block: 4px;
   font-size: var(--fs-body-sm);
   color: var(--text-tertiary);
+}
+.footer__col small {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
 .footer__legal {
@@ -1243,11 +1777,6 @@
   letter-spacing: var(--tracking-caps);
   color: var(--faint);
   white-space: nowrap;
-}
-/* Anchored to the shell rather than the viewport, or on a wide display it
-   drifts off into the gutter with nothing beside it. */
-.footer .shell {
-  position: relative;
 }
 .footer__back {
   position: absolute;
@@ -1278,6 +1807,7 @@
   color: rgba(220, 230, 244, 0.038);
   user-select: none;
 }
+
 @media (max-width: 720px) {
   .section {
     padding-block: clamp(68px, 11vh, 96px);
@@ -1292,14 +1822,14 @@
   .section__lead {
     font-size: clamp(1.05rem, 4.6vw, 1.2rem);
   }
-  .products {
+  .product-group {
     margin-top: 38px;
   }
-  .product {
+  .product--row {
     gap: 18px;
     padding-block: 34px;
   }
-  .product__name {
+  .product--row .product__name {
     font-size: clamp(1.75rem, 8vw, 2.2rem);
   }
   .principles {
@@ -1326,7 +1856,10 @@
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .footer__statement-main > p {
+  .footer__statement .eyebrow {
+    margin-top: 0;
+  }
+  .footer__statement-main > h2 {
     font-size: clamp(3rem, 14vw, 5rem);
   }
   .footer__legal {
@@ -1389,13 +1922,13 @@
   /* The spec leaves the description and takes the right edge, so the row
      is anchored at both ends of the hairline instead of trailing off into
      half a screen of empty width. */
-  .product {
+  .product--row {
     grid-template-columns: 8rem minmax(0, var(--rail-max)) minmax(0, 1fr) minmax(0, 15rem);
   }
-  .product__text {
+  .product--row .product__text {
     max-width: 62ch;
   }
-  .product__facets {
+  .product--row .product__facets {
     grid-column: 4;
     grid-row: 1 / span 3;
     flex-direction: column;
@@ -1403,20 +1936,31 @@
     gap: 11px;
     text-align: right;
   }
-  .product__action {
+  .product--row .product__action {
     grid-row: 2;
   }
   .footer__grid {
-    grid-template-columns: minmax(18rem, var(--rail-max)) repeat(3, minmax(8rem, 0.55fr));
+    grid-template-columns: minmax(19rem, var(--rail-max)) repeat(3, minmax(8rem, 0.55fr));
   }
+  /* The mark grows with its column, so the copy beside it has to grow too
+     or the hero tips over to the right. */
   .hero__content {
-    max-width: 46rem;
+    max-width: 50rem;
+    gap: clamp(20px, 2.8vh, 34px);
   }
   .hero__wordmark {
-    font-size: clamp(6rem, 6.4vw, 9.5rem);
+    font-size: clamp(6rem, min(7.4vw, 17vh), 10rem);
+  }
+  .hero__tagline {
+    gap: 0.95em;
+    font-size: clamp(0.75rem, min(0.76vw, 1.75vh), 1.05rem);
   }
   .hero__headline {
-    font-size: clamp(2.2rem, 2.1vw, 3.1rem);
+    font-size: clamp(2.2rem, min(2.5vw, 5.4vh), 3.4rem);
+  }
+  .hero__sub {
+    max-width: 50ch;
+    font-size: clamp(1.25rem, 1.2vw, 1.5rem);
   }
 }
 

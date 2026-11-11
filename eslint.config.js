@@ -31,12 +31,6 @@ export default tseslint.config(
     rules: {
       ...jsxA11y.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      // R3F frame callbacks intentionally mutate Three.js objects. These
-      // React Compiler rules cannot distinguish that imperative render loop
-      // from mutation of React-owned values.
-      "react-hooks/immutability": "off",
-      "react-hooks/set-state-in-effect": "off",
-      "react-hooks/use-memo": "off",
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
     },
   },

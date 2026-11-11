@@ -1,6 +1,9 @@
-import OwlMark from "../components/OwlMark";
-import { CONTACT_EMAIL, WORDMARK } from "../lib/brand";
+import Footer from "../components/Footer";
+import SiteHeader from "../components/SiteHeader";
+import type { HeaderAction } from "../components/SiteHeader";
 import type { LegalDocument } from "./documents";
+
+const ACTION: HeaderAction = { href: "/", label: "Back to company" };
 
 export default function LegalApp({ document }: { document: LegalDocument }) {
   return (
@@ -8,17 +11,9 @@ export default function LegalApp({ document }: { document: LegalDocument }) {
       <a className="skip-link" href="#legal-content">
         Skip to legal content
       </a>
-      <header className="legal-nav">
-        <a className="legal-nav__brand" href="/" aria-label="Glaux home">
-          <OwlMark size={24} />
-          {WORDMARK}
-        </a>
-        <a className="link-arrow link-arrow--sm" href="/">
-          Back to company
-        </a>
-      </header>
+      <SiteHeader brandHref="/" action={ACTION} />
 
-      <main className="legal-shell" id="legal-content" tabIndex={-1}>
+      <main className="legal-shell shell" id="legal-content" tabIndex={-1}>
         <header className="legal-hero">
           <p className="eyebrow">
             <span className="dot" aria-hidden="true" />
@@ -50,10 +45,7 @@ export default function LegalApp({ document }: { document: LegalDocument }) {
         </div>
       </main>
 
-      <footer className="legal-footer">
-        <p>© {new Date().getFullYear()} Glaux. All rights reserved.</p>
-        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </footer>
+      <Footer variant="compact" />
     </>
   );
 }

@@ -6,13 +6,16 @@
 
 export const COMPANY_NAME = "Glaux";
 export const WORDMARK = "GLAUX";
+/** The line set under the wordmark in the logo lockup. */
+export const TAGLINE = "Risk-first intelligence systems";
 
 export const LEDGER_URL = import.meta.env.VITE_LEDGER_URL ?? "https://ledger.useglaux.com";
 export const AKURU_PATH = "/akuru/";
-export const CONTACT_EMAIL = "useglaux@gmail.com";
+export const CONTACT_EMAIL = "support@useglaux.com";
 
 export const HERO = {
-  headline: "We build instruments for reading risk.",
+  /** The mission line from the horizontal logo lockup, word for word. */
+  headline: "Instruments for reading risk before it matters.",
   sub: "Glaux designs calibrated, regime-aware intelligence systems. Transparent about what they know, and honest about what they don't.",
   primaryCta: "Open Glaux Ledger",
   secondaryCta: "Explore",

@@ -1,6 +1,8 @@
 import { Fragment } from "react";
-import OwlMark from "../components/OwlMark";
-import { CONTACT_EMAIL, WORDMARK } from "../lib/brand";
+import Footer from "../components/Footer";
+import SiteHeader from "../components/SiteHeader";
+import type { HeaderAction, HeaderLink } from "../components/SiteHeader";
+import { useSmoothAnchors } from "../lib/scrollTo";
 import {
   FIXES,
   FREE_FEATURES,
@@ -15,6 +17,14 @@ import { RELEASE, downloadUrl, fileSize, releaseDate } from "./release";
 const { setup, portable } = RELEASE.files;
 const onWindows = /Windows/i.test(navigator.userAgent);
 const lkr = (amount: number) => `LKR ${amount.toLocaleString("en-US")}`;
+
+const LINKS: readonly HeaderLink[] = [
+  { href: "#fixes", label: "What it fixes" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#install", label: "Install" },
+  { href: "#questions", label: "Questions" },
+];
+const ACTION: HeaderAction = { href: "/#products", label: "All products" };
 
 function DownloadIcon() {
   return (
@@ -76,20 +86,14 @@ function SectionHead({
 }
 
 export default function AkuruApp() {
+  useSmoothAnchors();
+
   return (
     <>
       <a className="skip-link" href="#akuru-content">
         Skip to content
       </a>
-      <header className="akuru-nav shell">
-        <a className="akuru-nav__brand" href="/" aria-label="Glaux home">
-          <OwlMark size={24} />
-          {WORDMARK}
-        </a>
-        <a className="link-arrow link-arrow--sm" href="/#products">
-          All products
-        </a>
-      </header>
+      <SiteHeader brandHref="/" links={LINKS} action={ACTION} />
 
       <main id="akuru-content" tabIndex={-1}>
         <section className="akuru-hero shell" aria-labelledby="akuru-title">
@@ -176,7 +180,7 @@ export default function AkuruApp() {
           </figure>
         </section>
 
-        <section className="section shell" aria-labelledby="fixes-title">
+        <section className="section shell" id="fixes" aria-labelledby="fixes-title">
           <SectionHead
             id="fixes-title"
             eyebrow="What it fixes"
@@ -315,7 +319,7 @@ export default function AkuruApp() {
           </details>
         </section>
 
-        <section className="section shell" aria-labelledby="faq-title">
+        <section className="section shell" id="questions" aria-labelledby="faq-title">
           <SectionHead id="faq-title" eyebrow="Questions" title="Before you install." />
           <dl className="akuru-faq">
             {QUESTIONS.map((item) => (
@@ -328,15 +332,7 @@ export default function AkuruApp() {
         </section>
       </main>
 
-      <footer className="akuru-footer shell">
-        <p>© {new Date().getFullYear()} Glaux. All rights reserved.</p>
-        <nav aria-label="Footer">
-          <a href="/">Glaux</a>
-          <a href="/terms/">Terms</a>
-          <a href="/privacy/">Privacy</a>
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        </nav>
-      </footer>
+      <Footer variant="compact" />
     </>
   );
 }
