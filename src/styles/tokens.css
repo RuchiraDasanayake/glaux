@@ -58,15 +58,14 @@
   --radius-lg: 20px;
 
   /* ---- layout ----
-     One measure for the whole page. The nav, the hero and every section
-     share it, so the spine copy starts on is a single unbroken line from
-     the wordmark to the footer. Earlier the hero and nav ran to a wider
-     stage than the sections, which on anything past 1920px left the hero
-     hugging the screen edge above a column floating in the middle. */
+     One measure for the whole site. The header, the hero, every section
+     and the footer share it, so the spine copy starts on is a single
+     unbroken line from the logo in the header to the logo in the footer,
+     on every page. */
   --shell-max: 1920px;
   --shell-pad: clamp(20px, 4.5vw, 64px);
   --section-gap: clamp(88px, 13vh, 168px);
-  --nav-bar-h: 60px;
+  --nav-bar-h: 64px;
   /* The label rail stops growing here. As a bare fraction it keeps taking
      42% of an ultrawide screen, which maroons the title in the middle of
      the page with a third of the width holding one eyebrow. In rem it
@@ -84,10 +83,10 @@
      for UI/body, Spline Mono for labels and data.
      ================================================================ */
   /* Sized for the stacked hero, where the wordmark has the full width and
-     the owl sits above it, hence height-aware, or a short laptop screen
-     leaves the owl nothing. The split hero overrides this: there the
-     wordmark answers to its column, not the viewport. */
-  --fs-wordmark: clamp(3.6rem, min(16vw, 17vh), 8rem);
+     the mark sits above it, hence height-aware, or a short screen leaves
+     the mark nothing. The split hero overrides this: there the wordmark
+     answers to its column, not the viewport. */
+  --fs-wordmark: clamp(3.4rem, min(16.5vw, 15vh), 7.6rem);
   --fs-display-2xl: clamp(2.6rem, 6vw, 4.6rem);
   --fs-display-xl: clamp(2rem, 4.2vw, 3.1rem);
   --fs-display-lg: clamp(1.7rem, 3vw, 2.35rem);
@@ -139,7 +138,7 @@
     font-size: 106.25%;
     --shell-max: 2120px;
     --shell-pad: clamp(64px, 4vw, 104px);
-    --nav-bar-h: 66px;
+    --nav-bar-h: 70px;
   }
 }
 @media (min-width: 2560px) {

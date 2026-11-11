@@ -1,12 +1,16 @@
-import { m, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
+import type { CSSProperties, ReactNode, RefObject } from "react";
 
 /**
- * The one reveal used across the page: a short fade and rise as a block
- * enters the viewport, on the shared `--ease-out` curve. Motion here only
- * reinforces reading order, so the reduced-motion path drops it entirely
- * rather than substituting something else.
+ * The one reveal used across the site: a short fade and rise as a block
+ * scrolls into view, on the shared `--ease-out` curve.
+ *
+ * Nothing is hidden by default, and nothing depends on this running. A block
+ * is only held back if it is still below the fold once the page has painted,
+ * so the first screen never flashes out and back in. Anything already
+ * scrolled past (a reload half way down, a link straight to a section) is
+ * shown at once. Reduced motion, printing and a browser without an observer
+ * all leave the block exactly as it was written.
  */
 export default function Reveal({
   children,
@@ -16,40 +20,49 @@ export default function Reveal({
 }: {
   children: ReactNode;
   className?: string;
+  /** Seconds. Staggers siblings so a row arrives in reading order. */
   delay?: number;
   /** So a reveal can sit directly inside a list without breaking it. */
   as?: "div" | "li";
 }) {
-  const reducedMotion = useReducedMotion();
-  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (reducedMotion) return;
-    const timeout = window.setTimeout(() => setVisible(true), 1400 + delay * 1000);
-    return () => window.clearTimeout(timeout);
-  }, [delay, reducedMotion]);
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
 
-  if (reducedMotion) {
-    return as === "li" ? (
-      <li className={className}>{children}</li>
-    ) : (
-      <div className={className}>{children}</div>
+    el.dataset.reveal = "pending";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        if (entry.isIntersecting) el.dataset.reveal = "in";
+        else if (entry.boundingClientRect.top < 0) delete el.dataset.reveal;
+        else return;
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px -7% 0px" },
     );
-  }
+    observer.observe(el);
 
-  const Motion = as === "li" ? m.li : m.div;
+    return () => {
+      observer.disconnect();
+      delete el.dataset.reveal;
+    };
+  }, []);
 
-  return (
-    <Motion
-      className={className}
-      initial={{ opacity: 0, y: 22 }}
-      animate={visible ? { opacity: 1, y: 0 } : undefined}
-      whileInView={{ opacity: 1, y: 0 }}
-      onViewportEnter={() => setVisible(true)}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+  const style = delay
+    ? ({ "--reveal-delay": `${Math.round(delay * 1000)}ms` } as CSSProperties)
+    : undefined;
+
+  return as === "li" ? (
+    <li ref={ref as RefObject<HTMLLIElement | null>} className={className} style={style}>
       {children}
-    </Motion>
+    </li>
+  ) : (
+    <div ref={ref as RefObject<HTMLDivElement | null>} className={className} style={style}>
+      {children}
+    </div>
   );
 }

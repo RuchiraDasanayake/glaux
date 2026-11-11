@@ -1,37 +1,22 @@
-.legal-nav,
-.legal-shell,
-.legal-footer {
-  width: 100%;
-  max-width: 1120px;
-  margin-inline: 0 auto;
-  padding-inline: var(--shell-pad);
-}
-
-.legal-nav {
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  border-bottom: 1px solid var(--hairline);
-}
-
-.legal-nav__brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: var(--tracking-caps);
-  color: var(--text-primary);
-}
+/* ================================================================
+   LEGAL: Terms and Privacy.
+   The page shares the site's shell, so the document starts on the same
+   spine as the logo in the header above it and the logo in the footer
+   below. The text itself keeps a reading measure of its own.
+   ================================================================ */
 
 .legal-shell:focus {
   outline: none;
 }
 
+.legal-hero,
+.legal-document {
+  max-width: 62rem;
+}
+
+/* The header is fixed over the top of the page, so the title starts below it. */
 .legal-hero {
-  padding-block: clamp(72px, 12vh, 132px) clamp(56px, 8vh, 88px);
+  padding-block: calc(var(--nav-bar-h) + clamp(56px, 11vh, 120px)) clamp(56px, 8vh, 88px);
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -56,7 +41,7 @@
 }
 
 .legal-document {
-  padding-block: clamp(48px, 8vh, 88px);
+  padding-block: clamp(48px, 8vh, 88px) 0;
 }
 
 .legal-section {
@@ -69,6 +54,10 @@
 
 .legal-section:first-child {
   padding-block-start: 0;
+}
+
+.legal-section:last-child {
+  border-bottom: 0;
 }
 
 .legal-section h2 {
@@ -93,39 +82,20 @@
   padding-inline-start: 20px;
 }
 
+/* The same diamond that marks every label on the site. */
 .legal-section__body li::before {
   content: "";
   position: absolute;
-  top: 0.72em;
+  top: 0.55em;
   left: 0;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 6px;
+  height: 10px;
   background: var(--gleam);
-}
-
-.legal-footer {
-  min-height: 112px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  border-top: 1px solid var(--hairline);
-  color: var(--text-tertiary);
-  font-size: var(--fs-label);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
 }
 
 @media (max-width: 680px) {
-  .legal-nav .link-arrow {
-    font-size: var(--fs-micro);
-  }
   .legal-section {
     grid-template-columns: 1fr;
-  }
-  .legal-footer {
-    min-height: 140px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
   }
 }

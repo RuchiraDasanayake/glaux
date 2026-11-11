@@ -1,0 +1,552 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1000 1000">
+  
+  <defs>
+    <!-- Deep Nyx Observatory Canvas -->
+    <radialGradient id="nyxCanvas" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#131E33"/>
+      <stop offset="52%" stop-color="#090F1B"/>
+      <stop offset="100%" stop-color="#04070D"/>
+    </radialGradient>
+
+    <!-- Warm Golden Observatory Back-Glow -->
+    <radialGradient id="goldBackGlow" cx="50%" cy="38%" r="44%">
+      <stop offset="0%" stop-color="#E9B45C" stop-opacity="0.24"/>
+      <stop offset="55%" stop-color="#E9B45C" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#E9B45C" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Individual Eye Ambient Glow -->
+    <radialGradient id="eyeAmbientGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5C66B" stop-opacity="0.38"/>
+      <stop offset="65%" stop-color="#E9B45C" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#E9B45C" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Sculpted Silver Metallic Plate Gradients -->
+    <linearGradient id="plateSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#DCE6F4"/>
+      <stop offset="75%" stop-color="#7F95B5"/>
+      <stop offset="100%" stop-color="#2D3E5A"/>
+    </linearGradient>
+
+    <linearGradient id="plateSilverLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7FAFF"/>
+      <stop offset="30%" stop-color="#D4E1F2"/>
+      <stop offset="70%" stop-color="#758BA9"/>
+      <stop offset="100%" stop-color="#25344D"/>
+    </linearGradient>
+
+    <linearGradient id="plateSilverRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F7FAFF"/>
+      <stop offset="30%" stop-color="#C9D8EC"/>
+      <stop offset="70%" stop-color="#687E9E"/>
+      <stop offset="100%" stop-color="#1E2C42"/>
+    </linearGradient>
+
+    <linearGradient id="plateSteelMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8DA0BC"/>
+      <stop offset="50%" stop-color="#3E5270"/>
+      <stop offset="100%" stop-color="#141E30"/>
+    </linearGradient>
+
+    <linearGradient id="plateRimLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#DCE6F4" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#E9B45C" stop-opacity="0.45"/>
+    </linearGradient>
+
+    <!-- Sweeping Brow Blade Metallic Gradients -->
+    <linearGradient id="browBladeLeft" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="28%" stop-color="#E4EDF9"/>
+      <stop offset="68%" stop-color="#8FA4C2"/>
+      <stop offset="100%" stop-color="#435775"/>
+    </linearGradient>
+
+    <linearGradient id="browBladeRight" x1="100%" y1="0%" x2="0%" y2="80%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="28%" stop-color="#DCE7F6"/>
+      <stop offset="68%" stop-color="#8298B8"/>
+      <stop offset="100%" stop-color="#384B68"/>
+    </linearGradient>
+
+    <linearGradient id="browBevelDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1B273D"/>
+      <stop offset="100%" stop-color="#0B111D"/>
+    </linearGradient>
+
+    <linearGradient id="crownShieldGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#3B4F70"/>
+      <stop offset="55%" stop-color="#19253A"/>
+      <stop offset="100%" stop-color="#0B111E"/>
+    </linearGradient>
+
+    <!-- Eye Optical Chamber & Blazing Gold Iris -->
+    <radialGradient id="eyeChamberGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1C160B"/>
+      <stop offset="70%" stop-color="#090D16"/>
+      <stop offset="100%" stop-color="#030509"/>
+    </radialGradient>
+
+    <radialGradient id="irisBlazeGrad" cx="44%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#FFFDF4"/>
+      <stop offset="22%" stop-color="#FFE6A3"/>
+      <stop offset="55%" stop-color="#E9B45C"/>
+      <stop offset="85%" stop-color="#B87818"/>
+      <stop offset="100%" stop-color="#6B4105"/>
+    </radialGradient>
+
+    <!-- 3D Faceted Gold Diamond Beak Gradients -->
+    <linearGradient id="beakTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF5"/>
+      <stop offset="50%" stop-color="#F7D391"/>
+      <stop offset="100%" stop-color="#E9B45C"/>
+    </linearGradient>
+    <linearGradient id="beakTopRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2C674"/>
+      <stop offset="60%" stop-color="#C98A27"/>
+      <stop offset="100%" stop-color="#8C5B0E"/>
+    </linearGradient>
+    <linearGradient id="beakBotLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2C674"/>
+      <stop offset="55%" stop-color="#D49632"/>
+      <stop offset="100%" stop-color="#8F5D10"/>
+    </linearGradient>
+    <linearGradient id="beakBotRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B87A1B"/>
+      <stop offset="60%" stop-color="#7D4F0A"/>
+      <stop offset="100%" stop-color="#452903"/>
+    </linearGradient>
+
+    <!-- Chiseled Silver Wordmark Gradient -->
+    <linearGradient id="wordmarkSilver" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="48%" stop-color="#E4EDF8"/>
+      <stop offset="100%" stop-color="#8DA0BC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" rx="210" fill="url(#nyxCanvas)"/>
+  <rect width="1000" height="1000" rx="210" fill="url(#goldBackGlow)"/>
+  <rect x="12" y="12" width="976" height="976" rx="198" fill="none" stroke="#8DA0BC" stroke-opacity="0.2" stroke-width="2"/>
+  <g transform="translate(500, 488) scale(1.06) translate(-500, -450)">
+    
+    
+    <!-- Outer Full Astrolabe Horizon Circle -->
+    <circle cx="500" cy="410" r="356" fill="none" stroke="#E9B45C" stroke-width="1.1" stroke-opacity="0.22"/>
+    <circle cx="500" cy="410" r="328" fill="none" stroke="#E9B45C" stroke-width="1.6" stroke-opacity="0.38"/>
+    <circle cx="500" cy="410" r="314" fill="none" stroke="#8DA0BC" stroke-width="0.9" stroke-dasharray="4 8" stroke-opacity="0.28"/>
+
+    <!-- Orthogonal Instrument Crosshairs (The One Spine & Optical Horizon) -->
+    <line x1="500" y1="18" x2="500" y2="802" stroke="#E9B45C" stroke-width="1.2" stroke-opacity="0.32"/>
+    <line x1="152" y1="410" x2="848" y2="410" stroke="#E9B45C" stroke-width="1.1" stroke-opacity="0.26"/>
+
+    <!-- Graduated Protractor Ticks -->
+    <line x1="178.00" y1="410.00" x2="152.00" y2="410.00" stroke="#E9B45C" stroke-width="2.6" stroke-opacity="0.95" stroke-linecap="round"/>
+    <line x1="172.31" y1="395.69" x2="167.32" y2="395.47" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="173.25" y1="381.41" x2="164.28" y2="380.63" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="174.81" y1="367.19" x2="169.85" y2="366.53" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="176.98" y1="353.04" x2="168.12" y2="351.48" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="179.77" y1="339.01" x2="174.89" y2="337.93" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="183.18" y1="325.11" x2="169.65" y2="321.48" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="187.18" y1="311.37" x2="182.41" y2="309.86" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="191.78" y1="297.82" x2="183.32" y2="294.74" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="196.97" y1="284.48" x2="192.35" y2="282.57" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="202.73" y1="271.38" x2="194.57" y2="267.58" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="209.06" y1="258.55" x2="204.63" y2="256.24" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="215.94" y1="246.00" x2="203.82" y2="239.00" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="223.37" y1="233.77" x2="219.15" y2="231.08" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="231.32" y1="221.87" x2="223.95" y2="216.70" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="239.78" y1="210.33" x2="235.81" y2="207.28" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="248.74" y1="199.17" x2="241.84" y2="193.38" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="258.17" y1="188.41" x2="254.49" y2="185.03" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="272.31" y1="182.31" x2="253.93" y2="163.93" stroke="#E9B45C" stroke-width="2.6" stroke-opacity="0.95" stroke-linecap="round"/>
+    <line x1="278.41" y1="168.17" x2="275.03" y2="164.49" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="289.17" y1="158.74" x2="283.38" y2="151.84" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="300.33" y1="149.78" x2="297.28" y2="145.81" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="311.87" y1="141.32" x2="306.70" y2="133.95" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="323.77" y1="133.37" x2="321.08" y2="129.15" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="336.00" y1="125.94" x2="329.00" y2="113.82" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="348.55" y1="119.06" x2="346.24" y2="114.63" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="361.38" y1="112.73" x2="357.58" y2="104.57" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="374.48" y1="106.97" x2="372.57" y2="102.35" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="387.82" y1="101.78" x2="384.74" y2="93.32" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="401.37" y1="97.18" x2="399.86" y2="92.41" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="415.11" y1="93.18" x2="411.48" y2="79.65" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="429.01" y1="89.77" x2="427.93" y2="84.89" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="443.04" y1="86.98" x2="441.48" y2="78.12" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="457.19" y1="84.81" x2="456.53" y2="79.85" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="471.41" y1="83.25" x2="470.63" y2="74.28" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="485.69" y1="82.31" x2="485.47" y2="77.32" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="500.00" y1="88.00" x2="500.00" y2="62.00" stroke="#E9B45C" stroke-width="2.6" stroke-opacity="0.95" stroke-linecap="round"/>
+    <line x1="514.31" y1="82.31" x2="514.53" y2="77.32" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="528.59" y1="83.25" x2="529.37" y2="74.28" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="542.81" y1="84.81" x2="543.47" y2="79.85" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="556.96" y1="86.98" x2="558.52" y2="78.12" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="570.99" y1="89.77" x2="572.07" y2="84.89" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="584.89" y1="93.18" x2="588.52" y2="79.65" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="598.63" y1="97.18" x2="600.14" y2="92.41" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="612.18" y1="101.78" x2="615.26" y2="93.32" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="625.52" y1="106.97" x2="627.43" y2="102.35" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="638.62" y1="112.73" x2="642.42" y2="104.57" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="651.45" y1="119.06" x2="653.76" y2="114.63" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="664.00" y1="125.94" x2="671.00" y2="113.82" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="676.23" y1="133.37" x2="678.92" y2="129.15" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="688.13" y1="141.32" x2="693.30" y2="133.95" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="699.67" y1="149.78" x2="702.72" y2="145.81" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="710.83" y1="158.74" x2="716.62" y2="151.84" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="721.59" y1="168.17" x2="724.97" y2="164.49" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="727.69" y1="182.31" x2="746.07" y2="163.93" stroke="#E9B45C" stroke-width="2.6" stroke-opacity="0.95" stroke-linecap="round"/>
+    <line x1="741.83" y1="188.41" x2="745.51" y2="185.03" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="751.26" y1="199.17" x2="758.16" y2="193.38" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="760.22" y1="210.33" x2="764.19" y2="207.28" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="768.68" y1="221.87" x2="776.05" y2="216.70" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="776.63" y1="233.77" x2="780.85" y2="231.08" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="784.06" y1="246.00" x2="796.18" y2="239.00" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="790.94" y1="258.55" x2="795.37" y2="256.24" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="797.27" y1="271.38" x2="805.43" y2="267.58" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="803.03" y1="284.48" x2="807.65" y2="282.57" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="808.22" y1="297.82" x2="816.68" y2="294.74" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="812.82" y1="311.37" x2="817.59" y2="309.86" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="816.82" y1="325.11" x2="830.35" y2="321.48" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75" stroke-linecap="round"/>
+    <line x1="820.23" y1="339.01" x2="825.11" y2="337.93" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="823.02" y1="353.04" x2="831.88" y2="351.48" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="825.19" y1="367.19" x2="830.15" y2="366.53" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="826.75" y1="381.41" x2="835.72" y2="380.63" stroke="#8DA0BC" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="827.69" y1="395.69" x2="832.68" y2="395.47" stroke="#8DA0BC" stroke-width="0.75" stroke-opacity="0.26" stroke-linecap="round"/>
+    <line x1="822.00" y1="410.00" x2="848.00" y2="410.00" stroke="#E9B45C" stroke-width="2.6" stroke-opacity="0.95" stroke-linecap="round"/>
+
+    <!-- Cardinal Calibration Diamonds (0° Zenith, -90° West, +90° East, 180° South) -->
+    <polygon points="500,48 507,60 500,72 493,60" fill="#E9B45C"/>
+    <polygon points="500,782 506,770 500,758 494,770" fill="#E9B45C" opacity="0.8"/>
+    <polygon points="144,410 154,405 164,410 154,415" fill="#E9B45C" opacity="0.75"/>
+    <polygon points="856,410 846,405 836,410 846,415" fill="#E9B45C" opacity="0.75"/>
+
+    <!-- Vector Degree Labels (-90°, 0°, +90°) -->
+    <path d="M493.50 42.30Q491.83 42.30 490.70 41.52Q489.58 40.75 489.02 39.06Q488.46 37.38 488.46 34.65Q488.46 31.96 489.02 30.31Q489.58 28.67 490.70 27.92Q491.83 27.17 493.50 27.17Q495.18 27.17 496.30 27.92Q497.42 28.67 497.98 30.31Q498.54 31.96 498.54 34.65Q498.54 37.38 497.98 39.06Q497.42 40.75 496.30 41.52Q495.18 42.30 493.50 42.30Z M493.50 40.64Q494.27 40.64 494.87 40.35Q495.46 40.06 495.86 39.38Q496.26 38.70 496.46 37.55Q496.67 36.39 496.67 34.65Q496.67 32.94 496.46 31.81Q496.26 30.69 495.86 30.04Q495.45 29.38 494.86 29.11Q494.27 28.83 493.50 28.83Q492.73 28.83 492.14 29.11Q491.55 29.38 491.14 30.04Q490.74 30.69 490.54 31.81Q490.33 32.94 490.33 34.65Q490.33 36.39 490.54 37.55Q490.74 38.70 491.14 39.38Q491.55 40.06 492.14 40.35Q492.73 40.64 493.50 40.64Z M493.50 36.07Q492.97 36.06 492.75 35.70Q492.52 35.35 492.52 34.69Q492.52 34.04 492.75 33.68Q492.97 33.32 493.50 33.32Q494.03 33.32 494.25 33.68Q494.48 34.04 494.48 34.69Q494.48 35.35 494.25 35.70Q494.03 36.06 493.50 36.07Z M506.50 32.44Q505.11 32.44 504.30 31.62Q503.48 30.80 503.48 29.41Q503.48 28.02 504.31 27.20Q505.13 26.39 506.52 26.39Q507.91 26.39 508.73 27.20Q509.54 28.02 509.54 29.41Q509.54 30.80 508.72 31.62Q507.90 32.44 506.50 32.44Z M506.50 31.18Q507.25 31.18 507.69 30.70Q508.13 30.22 508.13 29.41Q508.13 28.59 507.69 28.12Q507.25 27.64 506.50 27.65Q505.76 27.64 505.32 28.12Q504.88 28.59 504.88 29.41Q504.88 30.22 505.32 30.70Q505.76 31.18 506.50 31.18Z" fill="#E9B45C" fill-opacity="0.88"/>
+    <path d="M94.87 411.26L94.87 409.84L101.73 409.84L101.73 411.26Z M107.79 417.00Q108.31 416.60 108.96 416.04Q109.61 415.48 110.27 414.79Q110.94 414.10 111.50 413.29Q112.07 412.47 112.43 411.56Q112.68 410.93 112.77 410.24Q112.66 410.56 112.49 410.83Q112.18 411.38 111.74 411.77Q111.30 412.16 110.74 412.37Q110.19 412.58 109.54 412.58Q108.34 412.58 107.40 412.02Q106.46 411.46 105.93 410.48Q105.39 409.49 105.38 408.19Q105.38 407.06 105.75 406.21Q106.12 405.36 106.77 404.79Q107.42 404.22 108.25 403.93Q109.07 403.64 109.97 403.64Q111.25 403.64 112.29 404.21Q113.33 404.78 113.95 405.96Q114.56 407.14 114.56 409.00Q114.56 410.49 114.12 411.76Q113.68 413.03 113.01 414.04Q112.34 415.06 111.63 415.80Q110.92 416.55 110.38 417.00Z M109.87 411.07Q110.59 411.07 111.13 410.85Q111.67 410.63 112.07 410.26Q112.47 409.90 112.73 409.49Q112.77 409.41 112.79 409.17Q112.80 408.92 112.80 408.65Q112.80 407.64 112.47 406.86Q112.13 406.07 111.49 405.63Q110.85 405.18 109.92 405.18Q109.09 405.18 108.46 405.52Q107.82 405.86 107.47 406.50Q107.12 407.14 107.12 408.05Q107.13 409.41 107.84 410.24Q108.54 411.07 109.87 411.07Z M121.90 417.27Q120.40 417.27 119.38 416.57Q118.37 415.88 117.87 414.36Q117.36 412.84 117.36 410.38Q117.36 407.96 117.87 406.48Q118.37 405.00 119.38 404.33Q120.40 403.65 121.90 403.65Q123.41 403.65 124.42 404.33Q125.43 405.00 125.93 406.48Q126.44 407.96 126.44 410.38Q126.44 412.84 125.93 414.36Q125.43 415.88 124.42 416.57Q123.41 417.27 121.90 417.27Z M121.90 415.78Q122.59 415.78 123.13 415.51Q123.66 415.25 124.02 414.64Q124.38 414.03 124.57 412.99Q124.75 411.95 124.75 410.38Q124.75 408.85 124.57 407.83Q124.38 406.82 124.02 406.23Q123.66 405.64 123.12 405.39Q122.59 405.15 121.90 405.15Q121.21 405.15 120.68 405.39Q120.14 405.64 119.78 406.23Q119.42 406.82 119.23 407.83Q119.05 408.85 119.05 410.38Q119.05 411.95 119.23 412.99Q119.42 414.03 119.78 414.64Q120.14 415.25 120.68 415.51Q121.21 415.78 121.90 415.78Z M121.90 411.66Q121.42 411.65 121.22 411.33Q121.02 411.01 121.02 410.42Q121.02 409.84 121.22 409.51Q121.42 409.19 121.90 409.19Q122.38 409.19 122.58 409.51Q122.78 409.84 122.78 410.42Q122.78 411.01 122.58 411.33Q122.38 411.65 121.90 411.66Z M133.70 408.40Q132.45 408.40 131.72 407.66Q130.98 406.92 130.98 405.67Q130.98 404.42 131.72 403.68Q132.47 402.95 133.72 402.95Q134.97 402.95 135.70 403.68Q136.44 404.42 136.44 405.67Q136.44 406.92 135.70 407.66Q134.96 408.40 133.70 408.40Z M133.70 407.26Q134.38 407.26 134.77 406.83Q135.17 406.40 135.17 405.67Q135.17 404.93 134.77 404.50Q134.38 404.08 133.70 404.08Q133.03 404.08 132.64 404.50Q132.24 404.93 132.24 405.67Q132.24 406.40 132.64 406.83Q133.03 407.26 133.70 407.26Z" fill="#E9B45C" fill-opacity="0.72"/>
+    <path d="M865.46 414.89L865.46 411.95Q865.46 411.58 865.59 411.33Q865.72 411.09 866.03 411.01L861.90 411.01L861.90 409.49L865.46 409.49L865.46 405.63L867.15 405.63L867.15 409.49L870.70 409.49L870.70 411.01L867.15 411.01L867.15 414.89Z M875.79 417.00Q876.31 416.60 876.96 416.04Q877.60 415.48 878.27 414.79Q878.94 414.10 879.50 413.29Q880.07 412.47 880.43 411.56Q880.68 410.93 880.77 410.24Q880.66 410.56 880.49 410.83Q880.18 411.38 879.74 411.77Q879.30 412.16 878.74 412.37Q878.19 412.58 877.54 412.58Q876.34 412.58 875.40 412.02Q874.46 411.46 873.93 410.48Q873.39 409.49 873.38 408.19Q873.38 407.06 873.75 406.21Q874.12 405.36 874.77 404.79Q875.42 404.22 876.25 403.93Q877.07 403.64 877.97 403.64Q879.25 403.64 880.29 404.21Q881.33 404.78 881.95 405.96Q882.56 407.14 882.56 409.00Q882.56 410.49 882.12 411.76Q881.68 413.03 881.01 414.04Q880.34 415.06 879.63 415.80Q878.92 416.55 878.38 417.00Z M877.87 411.07Q878.59 411.07 879.13 410.85Q879.67 410.63 880.07 410.26Q880.47 409.90 880.73 409.49Q880.77 409.41 880.79 409.17Q880.80 408.92 880.80 408.65Q880.80 407.64 880.47 406.86Q880.13 406.07 879.49 405.63Q878.85 405.18 877.92 405.18Q877.09 405.18 876.46 405.52Q875.82 405.86 875.47 406.50Q875.12 407.14 875.12 408.05Q875.13 409.41 875.84 410.24Q876.54 411.07 877.87 411.07Z M889.90 417.27Q888.40 417.27 887.38 416.57Q886.37 415.88 885.87 414.36Q885.36 412.84 885.36 410.38Q885.36 407.96 885.87 406.48Q886.37 405.00 887.38 404.33Q888.40 403.65 889.90 403.65Q891.41 403.65 892.42 404.33Q893.43 405.00 893.93 406.48Q894.44 407.96 894.44 410.38Q894.44 412.84 893.93 414.36Q893.43 415.88 892.42 416.57Q891.41 417.27 889.90 417.27Z M889.90 415.78Q890.59 415.78 891.13 415.51Q891.66 415.25 892.02 414.64Q892.38 414.03 892.57 412.99Q892.75 411.95 892.75 410.38Q892.75 408.85 892.57 407.83Q892.38 406.82 892.02 406.23Q891.65 405.64 891.12 405.39Q890.59 405.15 889.90 405.15Q889.21 405.15 888.68 405.39Q888.14 405.64 887.78 406.23Q887.42 406.82 887.23 407.83Q887.05 408.85 887.05 410.38Q887.05 411.95 887.23 412.99Q887.42 414.03 887.78 414.64Q888.14 415.25 888.68 415.51Q889.21 415.78 889.90 415.78Z M889.90 411.66Q889.42 411.65 889.22 411.33Q889.02 411.01 889.02 410.42Q889.02 409.84 889.22 409.51Q889.42 409.19 889.90 409.19Q890.38 409.19 890.58 409.51Q890.78 409.84 890.78 410.42Q890.78 411.01 890.58 411.33Q890.38 411.65 889.90 411.66Z M901.70 408.40Q900.45 408.40 899.72 407.66Q898.98 406.92 898.98 405.67Q898.98 404.42 899.72 403.68Q900.47 402.95 901.72 402.95Q902.97 402.95 903.70 403.68Q904.44 404.42 904.44 405.67Q904.44 406.92 903.70 407.66Q902.96 408.40 901.70 408.40Z M901.70 407.26Q902.38 407.26 902.77 406.83Q903.17 406.40 903.17 405.67Q903.17 404.93 902.77 404.50Q902.38 404.08 901.70 404.08Q901.03 404.08 900.64 404.50Q900.24 404.93 900.24 405.67Q900.24 406.40 900.64 406.83Q901.03 407.26 901.70 407.26Z" fill="#E9B45C" fill-opacity="0.72"/>
+  
+
+    <!-- ==============================================================
+         1. DARK ARMORED SHIELD BACKING (Creates Deep Negative-Space Channels)
+         ============================================================== -->
+    <path d="
+      M 186 232
+      C 264 226, 360 258, 430 296
+      C 462 272, 538 272, 570 296
+      C 640 258, 736 226, 814 232
+      C 806 310, 796 420, 762 504
+      C 712 624, 614 708, 500 778
+      C 386 708, 288 624, 238 504
+      C 204 420, 194 310, 186 232
+      Z
+    " fill="#060A12" stroke="#E9B45C" stroke-width="1.2" stroke-opacity="0.28"/>
+
+    <!-- ==============================================================
+         2. SCULPTED SILVER METALLIC WING-SHIELD PLATES (3 Nested V-Ribs)
+         ============================================================== -->
+    <g id="sculpted-wing-plates">
+      <!-- OUTER WING ARMOR PLATES (Sweeping from temples down to the V-shield point) -->
+      <!-- Left Outer Metallic Wing Plate -->
+      <path d="
+        M 212 318
+        C 226 326, 240 342, 244 362
+        C 238 446, 272 536, 344 614
+        C 392 666, 446 708, 493 740
+        L 493 776
+        C 428 734, 358 680, 302 614
+        C 228 526, 196 424, 212 318
+        Z
+      " fill="url(#plateSilverLeft)" stroke="url(#plateRimLight)" stroke-width="1.8" stroke-linejoin="round"/>
+
+      <!-- Right Outer Metallic Wing Plate -->
+      <path d="
+        M 788 318
+        C 774 326, 760 342, 756 362
+        C 762 446, 728 536, 656 614
+        C 608 666, 554 708, 507 740
+        L 507 776
+        C 572 734, 642 680, 698 614
+        C 772 526, 804 424, 788 318
+        Z
+      " fill="url(#plateSilverRight)" stroke="url(#plateRimLight)" stroke-width="1.8" stroke-linejoin="round"/>
+
+      <!-- MIDDLE REGIME-CONTOUR PLATES (Second Parabolic Wing Rib) -->
+      <!-- Left Middle Wing Plate -->
+      <path d="
+        M 254 446
+        C 268 468, 286 484, 306 494
+        C 336 558, 398 622, 493 684
+        L 493 722
+        C 386 654, 294 566, 254 446
+        Z
+      " fill="url(#plateSilverLeft)" stroke="url(#plateRimLight)" stroke-width="1.6" stroke-linejoin="round"/>
+
+      <!-- Right Middle Wing Plate -->
+      <path d="
+        M 746 446
+        C 732 468, 714 484, 694 494
+        C 664 558, 602 622, 507 684
+        L 507 722
+        C 614 654, 706 566, 746 446
+        Z
+      " fill="url(#plateSilverRight)" stroke="url(#plateRimLight)" stroke-width="1.6" stroke-linejoin="round"/>
+
+      <!-- INNER BREAST CHEVRON PLATES (Third Parabolic Contour cradling the Beak) -->
+      <!-- Left Inner Plate -->
+      <path d="
+        M 326 504
+        C 356 516, 388 518, 418 510
+        C 442 552, 466 588, 493 620
+        L 493 664
+        C 418 612, 358 560, 326 504
+        Z
+      " fill="url(#plateSilverLeft)" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.85" stroke-linejoin="round"/>
+
+      <!-- Right Inner Plate -->
+      <path d="
+        M 674 504
+        C 644 516, 612 518, 582 510
+        C 558 552, 534 588, 507 620
+        L 507 664
+        C 582 612, 642 560, 674 504
+        Z
+      " fill="url(#plateSilverRight)" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.85" stroke-linejoin="round"/>
+
+      <!-- Golden Meridian Spine Channel between Left & Right Wing Plates -->
+      <line x1="500" y1="546" x2="500" y2="782" stroke="#E9B45C" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="500,774 507,788 500,802 493,788" fill="#E9B45C"/>
+    </g>
+
+    <!-- ==============================================================
+         3. PARABOLIC FACIAL DISC CRESCENTS (Framing the Optical Eyes)
+         ============================================================== -->
+    <g id="facial-disc-plates">
+      <!-- Left Cheek Crescent Plate -->
+      <path d="
+        M 234 294
+        C 214 366, 232 442, 288 484
+        C 332 516, 392 516, 438 486
+        C 394 498, 340 490, 304 456
+        C 262 416, 250 352, 266 298
+        Z
+      " fill="url(#plateSteelMid)" stroke="url(#plateRimLight)" stroke-width="1.4"/>
+
+      <!-- Right Cheek Crescent Plate -->
+      <path d="
+        M 766 294
+        C 786 366, 768 442, 712 484
+        C 668 516, 608 516, 562 486
+        C 606 498, 660 490, 696 456
+        C 738 416, 750 352, 734 298
+        Z
+      " fill="url(#plateSteelMid)" stroke="url(#plateRimLight)" stroke-width="1.4"/>
+    </g>
+
+    <!-- ==============================================================
+         4. DUAL OPTICAL SENSOR EYES (cx=366, cy=410 & cx=634, cy=410)
+         ============================================================== -->
+    
+    <g transform="translate(0, 0)">
+      <!-- Ambient Golden Eye Glow -->
+      <circle cx="366" cy="410" r="102" fill="url(#eyeAmbientGlow)"/>
+
+      <!-- Outer Machined Steel Bezel Ring -->
+      <circle cx="366" cy="410" r="84" fill="#060A12" stroke="url(#plateSilver)" stroke-width="7"/>
+      <circle cx="366" cy="410" r="79" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.45"/>
+
+      <!-- Recessed Obsidian Optical Chamber -->
+      <circle cx="366" cy="410" r="74" fill="url(#eyeChamberGrad)" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75"/>
+
+      <!-- Concentric Gold Sensor Reticle Rings -->
+      <circle cx="366" cy="410" r="66" fill="none" stroke="#E9B45C" stroke-width="1.2" stroke-opacity="0.55"/>
+      <circle cx="366" cy="410" r="54" fill="none" stroke="#E9B45C" stroke-width="1.4" stroke-dasharray="22 8 6 8" stroke-opacity="0.7"/>
+      <line x1="421.00" y1="410.00" x2="432.00" y2="410.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="423.96" y1="425.53" x2="429.75" y2="427.08" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="417.96" y1="440.00" x2="423.16" y2="443.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="407.01" y1="451.01" x2="412.67" y2="456.67" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="396.00" y1="461.96" x2="399.00" y2="467.16" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="381.53" y1="467.96" x2="383.08" y2="473.75" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="366.00" y1="465.00" x2="366.00" y2="476.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="350.47" y1="467.96" x2="348.92" y2="473.75" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="336.00" y1="461.96" x2="333.00" y2="467.16" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="324.99" y1="451.01" x2="319.33" y2="456.67" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="314.04" y1="440.00" x2="308.84" y2="443.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="308.04" y1="425.53" x2="302.25" y2="427.08" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="311.00" y1="410.00" x2="300.00" y2="410.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="308.04" y1="394.47" x2="302.25" y2="392.92" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="314.04" y1="380.00" x2="308.84" y2="377.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="324.99" y1="368.99" x2="319.33" y2="363.33" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="336.00" y1="358.04" x2="333.00" y2="352.84" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="350.47" y1="352.04" x2="348.92" y2="346.25" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="366.00" y1="355.00" x2="366.00" y2="344.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="381.53" y1="352.04" x2="383.08" y2="346.25" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="396.00" y1="358.04" x2="399.00" y2="352.84" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="407.01" y1="368.99" x2="412.67" y2="363.33" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="417.96" y1="380.00" x2="423.16" y2="377.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="423.96" y1="394.47" x2="429.75" y2="392.92" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+
+      <!-- Intense Glowing Amber-Gold Iris -->
+      <circle cx="366" cy="410" r="45" fill="url(#irisBlazeGrad)" stroke="#FFE39E" stroke-width="1.6"/>
+      <!-- Inner Iris Aperture Ring -->
+      <circle cx="366" cy="410" r="33" fill="none" stroke="#5E3804" stroke-width="1.4" stroke-dasharray="8 4" stroke-opacity="0.55"/>
+      <circle cx="366" cy="410" r="25" fill="none" stroke="#FFF6D6" stroke-width="1" stroke-opacity="0.65"/>
+
+      <!-- Deep Obsidian Pupil & Specular Lens Reflections -->
+      <circle cx="366" cy="410" r="17.5" fill="#05080F" stroke="#FFF0C2" stroke-width="1.2"/>
+      <!-- Primary Upper-Left Specular Glint -->
+      <circle cx="352" cy="396" r="6.2" fill="#FFFFFF" opacity="0.94"/>
+      <circle cx="361" cy="390" r="2.5" fill="#FFFFFF" opacity="0.75"/>
+      <!-- Secondary Warm Lower-Right Catadioptric Reflection -->
+      <circle cx="379" cy="423" r="3.2" fill="#FFE8A3" opacity="0.82"/>
+    </g>
+  
+    
+    <g transform="translate(0, 0)">
+      <!-- Ambient Golden Eye Glow -->
+      <circle cx="634" cy="410" r="102" fill="url(#eyeAmbientGlow)"/>
+
+      <!-- Outer Machined Steel Bezel Ring -->
+      <circle cx="634" cy="410" r="84" fill="#060A12" stroke="url(#plateSilver)" stroke-width="7"/>
+      <circle cx="634" cy="410" r="79" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.45"/>
+
+      <!-- Recessed Obsidian Optical Chamber -->
+      <circle cx="634" cy="410" r="74" fill="url(#eyeChamberGrad)" stroke="#E9B45C" stroke-width="1.8" stroke-opacity="0.75"/>
+
+      <!-- Concentric Gold Sensor Reticle Rings -->
+      <circle cx="634" cy="410" r="66" fill="none" stroke="#E9B45C" stroke-width="1.2" stroke-opacity="0.55"/>
+      <circle cx="634" cy="410" r="54" fill="none" stroke="#E9B45C" stroke-width="1.4" stroke-dasharray="22 8 6 8" stroke-opacity="0.7"/>
+      <line x1="689.00" y1="410.00" x2="700.00" y2="410.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="691.96" y1="425.53" x2="697.75" y2="427.08" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="685.96" y1="440.00" x2="691.16" y2="443.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="675.01" y1="451.01" x2="680.67" y2="456.67" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="664.00" y1="461.96" x2="667.00" y2="467.16" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="649.53" y1="467.96" x2="651.08" y2="473.75" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="634.00" y1="465.00" x2="634.00" y2="476.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="618.47" y1="467.96" x2="616.92" y2="473.75" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="604.00" y1="461.96" x2="601.00" y2="467.16" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="592.99" y1="451.01" x2="587.33" y2="456.67" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="582.04" y1="440.00" x2="576.84" y2="443.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="576.04" y1="425.53" x2="570.25" y2="427.08" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="579.00" y1="410.00" x2="568.00" y2="410.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="576.04" y1="394.47" x2="570.25" y2="392.92" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="582.04" y1="380.00" x2="576.84" y2="377.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="592.99" y1="368.99" x2="587.33" y2="363.33" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="604.00" y1="358.04" x2="601.00" y2="352.84" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="618.47" y1="352.04" x2="616.92" y2="346.25" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="634.00" y1="355.00" x2="634.00" y2="344.00" stroke="#E9B45C" stroke-width="2.2" stroke-opacity="0.9" stroke-linecap="round"/>
+      <line x1="649.53" y1="352.04" x2="651.08" y2="346.25" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="664.00" y1="358.04" x2="667.00" y2="352.84" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="675.01" y1="368.99" x2="680.67" y2="363.33" stroke="#E9B45C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="685.96" y1="380.00" x2="691.16" y2="377.00" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+      <line x1="691.96" y1="394.47" x2="697.75" y2="392.92" stroke="#E9B45C" stroke-width="0.9" stroke-opacity="0.5" stroke-linecap="round"/>
+
+      <!-- Intense Glowing Amber-Gold Iris -->
+      <circle cx="634" cy="410" r="45" fill="url(#irisBlazeGrad)" stroke="#FFE39E" stroke-width="1.6"/>
+      <!-- Inner Iris Aperture Ring -->
+      <circle cx="634" cy="410" r="33" fill="none" stroke="#5E3804" stroke-width="1.4" stroke-dasharray="8 4" stroke-opacity="0.55"/>
+      <circle cx="634" cy="410" r="25" fill="none" stroke="#FFF6D6" stroke-width="1" stroke-opacity="0.65"/>
+
+      <!-- Deep Obsidian Pupil & Specular Lens Reflections -->
+      <circle cx="634" cy="410" r="17.5" fill="#05080F" stroke="#FFF0C2" stroke-width="1.2"/>
+      <!-- Primary Upper-Left Specular Glint -->
+      <circle cx="620" cy="396" r="6.2" fill="#FFFFFF" opacity="0.94"/>
+      <circle cx="629" cy="390" r="2.5" fill="#FFFFFF" opacity="0.75"/>
+      <!-- Secondary Warm Lower-Right Catadioptric Reflection -->
+      <circle cx="647" cy="423" r="3.2" fill="#FFE8A3" opacity="0.82"/>
+    </g>
+  
+
+    <!-- ==============================================================
+         5. SWEEPING SCULPTED SILVER METALLIC BROW BLADES & CROWN CREST
+         ============================================================== -->
+    <g id="sculpted-brows">
+      <!-- Upper Crown Arch & Forehead Shield -->
+      <path d="
+        M 340 278
+        C 392 246, 444 232, 500 232
+        C 556 232, 608 246, 660 278
+        C 608 286, 552 314, 500 356
+        C 448 314, 392 286, 340 278
+        Z
+      " fill="url(#crownShieldGrad)" stroke="url(#plateRimLight)" stroke-width="1.6"/>
+
+      <!-- Golden Forehead Calibration V-Chevrons -->
+      <path d="M 436 266 L 500 318 L 564 266" fill="none" stroke="#E9B45C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 458 250 L 500 284 L 542 250" fill="none" stroke="#E9B45C" stroke-width="1.6" stroke-opacity="0.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="500,214 507,228 500,242 493,228" fill="#E9B45C"/>
+
+      <!-- LEFT SWEEPING METALLIC BROW BLADE (Upper Lit Facet + Lower Bevel Facet) -->
+      <!-- Left Brow Main Sculpted Plate -->
+      <path d="
+        M 176 226
+        C 254 228, 344 252, 424 294
+        C 454 310, 480 330, 500 354
+        L 500 388
+        C 466 356, 424 330, 374 316
+        C 308 298, 242 292, 198 274
+        C 186 260, 180 244, 176 226
+        Z
+      " fill="url(#browBladeLeft)" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"/>
+
+      <!-- Left Brow Lower Chiseled Bevel Shadow Facet -->
+      <path d="
+        M 198 274
+        C 242 292, 308 298, 374 316
+        C 424 330, 466 356, 500 388
+        L 500 400
+        C 460 366, 412 340, 358 328
+        C 298 314, 242 308, 206 288
+        Z
+      " fill="url(#browBevelDark)" stroke="#E9B45C" stroke-width="1" stroke-opacity="0.55"/>
+
+      <!-- RIGHT SWEEPING METALLIC BROW BLADE (Upper Lit Facet + Lower Bevel Facet) -->
+      <path d="
+        M 824 226
+        C 746 228, 656 252, 576 294
+        C 546 310, 520 330, 500 354
+        L 500 388
+        C 534 356, 576 330, 626 316
+        C 692 298, 758 292, 802 274
+        C 814 260, 820 244, 824 226
+        Z
+      " fill="url(#browBladeRight)" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"/>
+
+      <!-- Right Brow Lower Chiseled Bevel Shadow Facet -->
+      <path d="
+        M 802 274
+        C 758 292, 692 298, 626 316
+        C 576 330, 534 356, 500 388
+        L 500 400
+        C 540 366, 588 340, 642 328
+        C 702 314, 758 308, 794 288
+        Z
+      " fill="url(#browBevelDark)" stroke="#E9B45C" stroke-width="1" stroke-opacity="0.55"/>
+    </g>
+
+    <!-- ==============================================================
+         6. 3D FACETED GOLD DIAMOND BEAK (THE PLUMB-LINE NEEDLE)
+         ============================================================== -->
+    <g id="faceted-diamond-beak">
+      <!-- Outer Dark Chiseled Beak Seat -->
+      <polygon points="500,350 554,442 500,564 446,442" fill="#060A12" stroke="#E9B45C" stroke-width="1.5"/>
+      <!-- 4 Pyramid Facets of the Gold Diamond Beak -->
+      <!-- Top-Left Sunlit Gold Facet -->
+      <polygon points="500,358 452,442 500,442" fill="url(#beakTopLeft)"/>
+      <!-- Top-Right Gleam Gold Facet -->
+      <polygon points="500,358 548,442 500,442" fill="url(#beakTopRight)"/>
+      <!-- Bottom-Left Warm Amber Facet -->
+      <polygon points="500,442 452,442 500,556" fill="url(#beakBotLeft)"/>
+      <!-- Bottom-Right Burnished Bronze Facet -->
+      <polygon points="500,442 548,442 500,556" fill="url(#beakBotRight)"/>
+      <!-- Crisp Specular Bevel Edges -->
+      <polygon points="500,358 548,442 500,556 452,442" fill="none" stroke="#FFF3D1" stroke-width="1.8" stroke-linejoin="round"/>
+      <line x1="500" y1="358" x2="500" y2="556" stroke="#FFFDF7" stroke-width="1.6" stroke-opacity="0.9"/>
+      <line x1="452" y1="442" x2="548" y2="442" stroke="#5E3804" stroke-width="1.2" stroke-opacity="0.55"/>
+      <!-- Center Calibration Pin -->
+      <circle cx="500" cy="442" r="4" fill="#070B12" stroke="#FFF3D1" stroke-width="1.6"/>
+    </g>
+  
+  </g>
+</svg>

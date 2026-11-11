@@ -3,10 +3,10 @@ import ArrowUpRight from "./ArrowUpRight";
 import Reveal from "./Reveal";
 
 /**
- * One entry in the product catalogue: a mono rail carrying its number and
- * status, the name, the description, and the specification.
+ * A product you can open today: a mono rail carrying its number and status,
+ * the name, the description, the specification, and the way in.
  *
- * The four parts are siblings rather than nested blocks because the row
+ * The parts are siblings rather than nested blocks because the row
  * re-columns as the screen widens: stacked on a phone, three columns on a
  * laptop, and on a wide display the spec moves out to the right edge so
  * the row uses the full measure its hairline draws.
@@ -24,24 +24,17 @@ export default function ProductRow({
   index: number;
   delay?: number;
 }) {
-  const live = product.status === "live";
   const linked = Boolean(product.href && product.cta);
 
-  const classes = [
-    "product",
-    live ? "product--live" : "product--pending",
-    linked ? "product--linked" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <Reveal as="li" className={classes} delay={delay}>
+    <Reveal
+      as="li"
+      className={`product product--row product--live${linked ? " product--linked" : ""}`}
+      delay={delay}
+    >
       <div className="product__meta">
         <span className="product__index">{String(index + 1).padStart(2, "0")}</span>
-        <span className={`product__status${live ? " product__status--live" : ""}`}>
-          {product.statusLabel}
-        </span>
+        <span className="product__status product__status--live">{product.statusLabel}</span>
       </div>
 
       <div className="product__head">

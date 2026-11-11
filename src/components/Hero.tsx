@@ -1,86 +1,34 @@
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
-import { HERO, LEDGER_URL, WORDMARK } from "../lib/brand";
-import { detectTier, detectWebGL } from "../lib/capability";
-import type { DeviceTier } from "../lib/capability";
-import {
-  useAfterIdle,
-  useElementBox,
-  useInView,
-  usePageVisible,
-  usePointerVector,
-  useScrollProgress,
-} from "../lib/hooks";
+import { HERO, LEDGER_URL, PRINCIPLES, TAGLINE, WORDMARK } from "../lib/brand";
 import ArrowUpRight from "./ArrowUpRight";
-import HeroPoster from "./hero/HeroPoster";
-import Hero3DErrorBoundary from "./hero/Hero3DErrorBoundary";
+import HeroMark from "./HeroMark";
 
-// three + @react-three are reachable only from here, so the WebGL runtime
-// stays out of the initial payload entirely.
-const Hero3D = lazy(() => import("./hero/Hero3D"));
-
-interface Capabilities {
-  webgl: boolean;
-  tier: DeviceTier;
-}
-
+/**
+ * One composition: the logo, set large and alive, and beside it the same
+ * three lines the logo lockups carry, in the same order. Wordmark, the
+ * tagline under its diamond, then the mission line as the headline.
+ *
+ * The art column is decorative here because the heading already says the
+ * name; the header's logo is the one that is announced.
+ */
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const slotRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
-  const idle = useAfterIdle();
-  const inView = useInView(heroRef, "240px");
-  const pageVisible = usePageVisible();
-  const scrollProgress = useScrollProgress(heroRef);
-  const slot = useElementBox(slotRef, heroRef);
-
-  const [capabilities, setCapabilities] = useState<Capabilities | null>(null);
-  const [canvasReady, setCanvasReady] = useState(false);
-
-  // Probed after idle so neither the WebGL context probe nor the canvas
-  // mount can contend with first contentful paint.
-  useEffect(() => {
-    if (!idle) return;
-    setCapabilities({ webgl: detectWebGL(), tier: detectTier() });
-  }, [idle]);
-
-  const tier = capabilities?.tier ?? "low";
-  const allow3D = Boolean(capabilities?.webgl) && tier !== "low" && !reducedMotion;
-  const pointer = usePointerVector(allow3D);
-  const active = allow3D && inView && pageVisible;
-
   return (
-    <section className="hero" id="top" ref={heroRef}>
-      <div className="hero__stage">
-        <div className={`hero__layer${canvasReady ? " hero__layer--hidden" : ""}`}>
-          <HeroPoster />
-        </div>
-        {allow3D && (
-          <Hero3DErrorBoundary onError={() => setCanvasReady(false)}>
-            <Suspense fallback={null}>
-              <Hero3D
-                tier={tier}
-                active={active}
-                pointer={pointer}
-                scrollProgress={scrollProgress}
-                slot={slot}
-                onReady={() => setCanvasReady(true)}
-                onContextLost={() => setCanvasReady(false)}
-              />
-            </Suspense>
-          </Hero3DErrorBoundary>
-        )}
-      </div>
-
-      <div className="hero__scrim" />
-
+    <section className="hero" id="top">
       <div className="hero__grid shell">
-        {/* Reserves the owl's share of the composition. Measured, not drawn. */}
-        <div className="hero__slot" ref={slotRef} aria-hidden="true" />
+        <div className="hero__art" aria-hidden="true">
+          <HeroMark />
+        </div>
 
         <div className="hero__content">
+          {/* The wordmark, the tagline and the headline are one <h1> so the
+              page has a single, fully descriptive top-level heading; they are
+              only styled apart. */}
           <h1 className="hero__title">
             <span className="hero__wordmark">{WORDMARK}</span>
+            <span className="hero__tagline">
+              <span className="hero__tagline-rule" aria-hidden="true" />
+              <span className="dot" aria-hidden="true" />
+              {TAGLINE}
+            </span>
             <span className="hero__headline">{HERO.headline}</span>
           </h1>
 
@@ -103,6 +51,13 @@ export default function Hero() {
           <span>Scroll</span>
           <span className="hero__scroll-line" aria-hidden="true" />
         </a>
+        {/* The four words under the logo, which are also the four principles
+            further down the page. */}
+        <ul className="hero__pillars" aria-label="Glaux principles">
+          {PRINCIPLES.map((principle) => (
+            <li key={principle.index}>{principle.title}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ export default function WhatWeDo() {
   return (
     <section className="section" id="what">
       <div className="shell what">
-        <Reveal>
+        <Reveal className="what__head">
           <div className="section__head">
             <span className="eyebrow">
               <span className="dot" />

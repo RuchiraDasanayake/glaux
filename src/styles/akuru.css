@@ -14,33 +14,13 @@
   font-family: var(--font-sinhala);
 }
 
-.akuru-nav {
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  border-bottom: 1px solid var(--hairline);
-}
-.akuru-nav .link-arrow {
-  align-self: center;
-}
-.akuru-nav__brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: var(--tracking-caps);
-  color: var(--text-primary);
-}
-
 /* ---------------------------------------------------------------- hero */
 
+/* The header is fixed over the top of the page, so the hero starts below it. */
 .akuru-hero {
   display: grid;
   gap: 56px;
-  padding-block: clamp(56px, 11vh, 128px) clamp(40px, 8vh, 96px);
+  padding-block: calc(var(--nav-bar-h) + clamp(40px, 9vh, 112px)) clamp(40px, 8vh, 96px);
 }
 @media (min-width: 1040px) {
   .akuru-hero {
@@ -457,30 +437,4 @@ code.akuru-sample {
   color: var(--text-secondary);
   line-height: 1.7;
   overflow-wrap: anywhere;
-}
-
-/* ---------------------------------------------------------------- footer */
-
-.akuru-footer {
-  min-height: 112px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px 32px;
-  padding-block: 32px;
-  border-top: 1px solid var(--hairline);
-  font-size: var(--fs-label);
-  color: var(--text-tertiary);
-}
-.akuru-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-}
-.akuru-footer a {
-  color: var(--text-secondary);
-}
-.akuru-footer a:hover {
-  color: var(--accent-primary);
 }

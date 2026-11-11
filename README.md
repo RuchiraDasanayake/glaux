@@ -1,14 +1,17 @@
 # Glaux | useglaux.com
 
 The company site for Glaux: the parent-brand hub that explains what Glaux is
-and routes people to the products. A single page, dark-only, anchored on a
-lazily-loaded 3D owl that is the `OwlMark` brand SVG given depth, plus the
-download page for the Glaux Akuru Windows app at `/akuru/`.
+and routes people to the products. A single page, dark-only, anchored on the
+Glaux logo: the owl emblem set large in the hero with its instrument ring
+turning slowly around it. Beside it sit the download page for the Glaux Akuru
+Windows app at `/akuru/` and the Terms and Privacy pages, all under one
+header and one footer.
 
-The page is built on one left spine. Copy starts on it in every section, the
-hero splits copy left against the owl right, and nothing is centred. A
-centred hero over left-aligned sections is the shape of a template, and this
-is meant to read as a research group rather than a landing page.
+The page is built on one left spine. The logo in the header sits on it, copy
+starts on it in every section, the hero splits copy left against the owl
+right, and nothing is centred. A centred hero over left-aligned sections is
+the shape of a template, and this is meant to read as a research group rather
+than a landing page.
 
 Products it points at:
 
@@ -20,9 +23,9 @@ Products it points at:
 
 ## Stack
 
-React 19 · TypeScript 5.9 · Vite 8 · three 0.185 with
-`@react-three/fiber` + `@react-three/drei` · Framer Motion 12 · plain CSS
-custom properties (no Tailwind).
+React 19 · TypeScript 5.9 · Vite 8 · plain CSS custom properties (no
+Tailwind). There is no animation or 3D library: the logo is inline SVG and
+everything that moves is CSS.
 
 ## Running it
 
@@ -41,17 +44,16 @@ npm run dev        # http://localhost:5173
 | `npm run format:check` | Check formatting with Prettier                         |
 | `npm run check`        | Lint, formatting, and strict types                     |
 | `npm run test:e2e`     | Playwright smoke and accessibility checks              |
-| `npm run assets`       | Re-render the social card and square brand icons       |
+| `npm run assets`       | Re-render the favicon, social cards and app icons      |
 
 ### Environment
 
 Everything has a working default; `.env` is optional. See `.env.example`.
 
-| Variable               | Default                                | Purpose                                       |
-| ---------------------- | -------------------------------------- | --------------------------------------------- |
-| `VITE_LEDGER_URL`      | `https://ledger.useglaux.com`          | Product origin used by every Ledger link      |
-| `VITE_AKURU_DOWNLOADS` | `https://downloads.useglaux.com/akuru` | Where the Glaux Akuru installers are served   |
-| `VITE_OWL_MODEL_URL`   | _(unset)_                              | Load a glTF/GLB instead of the procedural owl |
+| Variable               | Default                                | Purpose                                     |
+| ---------------------- | -------------------------------------- | ------------------------------------------- |
+| `VITE_LEDGER_URL`      | `https://ledger.useglaux.com`          | Product origin used by every Ledger link    |
+| `VITE_AKURU_DOWNLOADS` | `https://downloads.useglaux.com/akuru` | Where the Glaux Akuru installers are served |
 
 ## Deployment
 
@@ -90,190 +92,190 @@ the usual security headers plus a CSP.
 
 The CSP needs `'unsafe-inline'` for the critical background style and JSON-LD.
 Fonts and images are self-hosted, and every network-capable directive remains
-restricted to the site origin. `'wasm-unsafe-eval'` and `worker-src blob:` are
-limited to the optional local Meshopt model decoder. The header set also
-includes HSTS, frame denial, MIME sniffing protection, and a restrictive
-permissions policy.
+restricted to the site origin. Nothing on the site compiles WebAssembly or
+starts a worker, so neither is allowed. The header set also includes HSTS,
+frame denial, MIME sniffing protection, and a restrictive permissions policy.
+
+`vite preview` does not apply `_headers`, so a policy that is too tight would
+only show up after a deploy. The e2e suite therefore reads the policy out of
+`public/_headers`, attaches it to each page by hand, and fails if the browser
+refuses anything.
 
 ### DNS
 
 The apex `useglaux.com` points at Pages. Leave the `ledger` record alone: each
 product is a separate deployment, and they only share a domain with this site.
 
-## The hero owl
+## The logo
 
-The owl is generated from three.js primitives, not downloaded. It is a
-deliberate 3D port of `src/components/OwlMark.tsx`, sharing its measurements:
-eyes at ±5.5 SVG units with r=4.2 circles and r=1.7 irises, and the brow path
-`M5.5 11.5 Q10.5 7 16 11.5 Q21.5 7 26.5 11.5` swept as a tube. The mark's
-colouring carries over too: steel brow and bezels, gold only in the irises.
+The artwork lives in `logo/` as SVG and is the one source for every place the
+brand appears. Nothing is redrawn by hand anywhere else.
 
-| File                     | Role                                                      |
-| ------------------------ | --------------------------------------------------------- |
-| `hero/owlGeometry.ts`    | Lathe profiles, the SVG→3D brow curve, generated textures |
-| `hero/ProceduralOwl.tsx` | The owl itself, under 10k triangles                       |
-| `hero/Reticle.tsx`       | The graduated instrument ring, one billboard              |
-| `hero/OwlScene.tsx`      | Lighting rig, framing, and the pointer signal             |
-| `hero/gaze.ts`           | The one thing everything reacting to the pointer reads    |
-| `hero/Hero3D.tsx`        | Canvas, DPR cap, frame-loop gating, `PerformanceMonitor`  |
-| `hero/HeroPoster.tsx`    | The CSS/SVG fallback and LCP element                      |
-| `hero/OwlModel.tsx`      | Dormant glTF slot                                         |
+| File                              | What it is                                                      |
+| --------------------------------- | --------------------------------------------------------------- |
+| `logo/glaux-mark.svg`             | The emblem on its dark rounded tile                             |
+| `logo/glaux-mark-transparent.svg` | The emblem alone: owl, calibration ring, degree marks           |
+| `logo/glaux-logo.svg`             | Stacked lockup: emblem, wordmark, tagline, the four principles  |
+| `logo/glaux-logo-horizontal.svg`  | Horizontal lockup: emblem, wordmark, mission line, product list |
 
-### It watches you
+On the page the emblem is a set of React components in `src/components/`,
+ported from `glaux-mark-transparent.svg` with every path, radius and colour
+kept. Only the ring's tick marks are generated, because the artwork lays them
+out on exact angles. The port was checked against the source by rendering both
+and comparing pixels. They are inline SVG rather than an image so the logo is
+in the first paint, stays sharp at any size, and can have its irises moved.
 
-The owl is the only thing on the page that answers back, so the interaction is
-the reason it earns a WebGL context at all. Everything below is skipped
-entirely under `prefers-reduced-motion`, which never mounts the canvas.
+| File                    | Role                                                                |
+| ----------------------- | ------------------------------------------------------------------- |
+| `brand/owlArt.tsx`      | The owl head and its gradients, in the artwork's own coordinates    |
+| `brand/GlauxMark.tsx`   | The full emblem: the owl inside its ring, ticks and degree labels   |
+| `brand/GlauxGlyph.tsx`  | The owl head alone, cropped tight, for the header and the footer    |
+| `brand/degreeLabels.ts` | The 0°, −90° and +90° lettering, as outlines                        |
+| `brand/artId.ts`        | A unique id per instance, so two logos on a page share no gradients |
+| `HeroMark.tsx`          | The hero's stage: the emblem, two orbits, the glow, the gaze        |
+| `SiteHeader.tsx`        | The header every page shares, and its menu on a phone               |
+| `Footer.tsx`            | The footer every page shares, in a full and a compact length        |
 
-The head turns to the pointer and the irises lead the turn; the eyes warm as
-you come near; the graduated ring creeps round and gains a little when you
-approach; the eyes blink on a random gap of four to ten seconds; and behind all
-of it a gold rim light orbits, the body breathes, and the head drifts when
-there is nothing to look at. Scrolling past the hero tips the owl forward and
-cools the gaze, so it stops competing with the copy below it.
+The glyph asks `owlArt` for `detail="compact"`, which leaves out the sensor
+ticks and hairline rings inside the eyes and the secondary glints. At header
+size they cannot be resolved and only grey the gold of the iris. That is the
+only liberty taken with the artwork.
 
-Four things make that read as a bird rather than a gadget:
+`scripts/generate-og.mjs` reads `glaux-mark.svg` and
+`glaux-logo-horizontal.svg` and writes everything a browser or another site
+asks for by URL. It runs as `npm run assets` and before every build.
 
-**The head turns; the body does not.** Everything above the neck sits on its
-own pivot inside `ProceduralOwl`, nested so it rotates about the head's own
-centre. Turning the whole owl instead swings the head through an arc and pulls
-it off the reticle it is supposed to sit inside. An owl holding its body
-still while its head tracks you is the single most recognisable thing the
-animal does. The yaw is capped near twenty degrees: past that the facial disc
-goes three-quarter, the far eye slides behind the skull's rim, and the brand
-mark stops being legible as the mark.
+| Output                 | Made from                                                    |
+| ---------------------- | ------------------------------------------------------------ |
+| `favicon.svg`          | The owl head on the tile, without the ring it cannot resolve |
+| `favicon-32.png`       | The same, for browsers that do not take an SVG icon          |
+| `apple-touch-icon.png` | The tile mark, squared off, at 180px                         |
+| `brand-icon-512.png`   | The tile mark as supplied                                    |
+| `og-image.png`         | The horizontal lockup, as a 1200×630 card                    |
+| `og-akuru.png`         | The Glaux Akuru card, signed with the owl and the wordmark   |
 
-**The pointer is measured from the owl, not from the viewport.** The owl sits
-off to one side of a split hero, so a pointer over the headline is well to its
-left while still near the middle of the screen. `OwlScene` takes the offset
-from the measured slot, damps it once, and publishes it as the `Gaze`. Head,
-irises and reticle all move off that one signal and so stay in step. A useful
-side effect: before you touch the mouse the owl is already looking at the
-wordmark.
+The lockup's last line, `LEDGER · AKURU · MARKETS · AGRO`, is left off the
+share card. It sets the two products that are still in development beside the
+two that ship, and a card travels without the page that says which is which.
 
-**Nothing here re-renders React.** The pointer, the scroll position and the
-gaze are all refs read inside the frame loop. The per-frame cost is a handful
-of lerps and four writes to object transforms.
+### The hero
 
-**The camera keeps out of the way.** It still drifts with the pointer, but at
-roughly half its old amplitude. The camera and the head now pull the same
-direction so the two summed; worse, the reticle sits behind the head, so
-camera drift slides the ring off the face it frames. What is left is enough
-for depth and not enough to break the composition.
+The hero is the logo's own lockup, at page scale: the emblem, then the three
+lines the lockups set with it. The wordmark, the tagline under its diamond
+("Risk-first intelligence systems") and the mission line ("Instruments for
+reading risk before it matters.") are one `<h1>`, styled apart. The four words
+the stacked lockup sets beneath itself sit under the emblem, and they are the
+four principles further down the page.
 
-On touch screens `usePointerVector` reports `tracking: false` rather than a
-position of zero, and the owl falls back to its idle drift. Without that flag a
-phone reads as a pointer parked in the middle of the screen and the owl holds
-one slightly askew pose for as long as the page is open.
+**The emblem is never animated.** A logo that drifts or wobbles stops being
+the logo, so it is drawn exactly as supplied and held still. What moves is
+around it and inside its eyes:
 
-### Four decisions worth knowing before you change it
+- Two graduated orbits turn around it in opposite directions, one every three
+  minutes and one every five.
+- The glow behind the owl breathes on a nine-second cycle and each eye pulses.
+- On a device with a mouse the irises lean a few units towards the pointer.
+- The wordmark takes a single glint as the page arrives, then holds still.
 
-**CSS places the owl; the scene obeys.** The hero renders an empty
-`.hero__slot` div wherever the layout wants the subject: a right-hand column
-on the split, a full-width band above the copy when stacked. `useElementBox`
-measures it and `OwlScene` fits the reticle-to-chin box inside whatever
-rectangle comes back. So the composition lives in one place, in the same media
-queries as everything else, and adding a breakpoint needs no camera maths.
+The orbits, the glow and the eyes are `transform` or `opacity` on their own
+layers, so the compositor carries them and the main thread is idle while the
+page sits open. They pause when the hero scrolls out of view. The irises are
+only redrawn while the pointer is moving. Under `prefers-reduced-motion` none
+of it runs: the hero is simply there, complete.
 
-**The owl is placed by shifting the lens, not by moving the owl.** `OwlScene`
-keeps the group on the camera's axis and calls `camera.setViewOffset` to slide
-the whole frustum. Translating the group sideways instead puts it off-axis,
-which opens perspective parallax between the head and the reticle behind it.
-The ring visibly drifts off-centre, and the face turns three-quarter. The
-reticle's own depth is kept shallow (`Reticle.tsx`, `DEPTH`) for the same
-reason: set further back it shrinks against the face in front of it and
-disappears behind the head once the owl is scaled up.
+**CSS places the emblem and sizes it.** `.hero__art` is a size container, and
+the stage inside it is sized against that cell rather than the viewport:
+`min(100cqw / --fit-w, 100cqh / --fit-h, --stage-max)`. The two `--fit`
+numbers say how much of the stage has to stay inside the cell, across and
+down, which is what lets the orbits run off a phone's edges while the emblem
+and its degree labels never do. So a breakpoint is three custom properties,
+and no script measures anything.
 
-**The head must stay the widest mass, and the body must stay behind it.** The
-first pass had a body wider than the head and read as an egg with a face on it.
-Every radius in `owlGeometry.ts` keeps the body's widest point inside the head
-radius. The chest is also flattened in z (`BODY_DEPTH_SCALE`) and seated below
-the head (`BODY_DROP`): the skull's front curves away sharply at its rim, so
-where the two overlap without the drop the chest wins the depth test and lays a
-bib across the lower face.
+**Stacked, or split.** The emblem sits above the copy on a phone and on a
+tablet held upright, and takes whatever height the copy leaves it. On a screen
+at least 980px wide that is wider than it is tall, the copy takes the spine
+and the emblem its own column to the right. A phone on its side gets the split
+too: stacked, the emblem alone would fill the screen.
 
-**The body dissolves in its own shader, not under a CSS scrim.** `withHeightFade`
-in `ProceduralOwl.tsx` patches the body material to mix toward `--nyx` as it
-descends, and again at grazing angles so the sides melt rather than ending on a
-cut-out edge. The band closes above the torso's widest point: the body is
-already close to the background in value, so what reads is the sheen along its
-shoulders, and half-fading a sheen still leaves a sheen. A scrim over the canvas
-cannot do this job either. The copy moves with the viewport and the owl does
-not, so a scrim tuned on a 16:9 desktop leaves a hard silhouette on a tablet.
+### The header
 
-### Dropping in an authored model
-
-Export a Meshopt-compressed `.glb`, put it in `public/models/`, and
-set `VITE_OWL_MODEL_URL=/models/owl.glb`. The loader recentres and rescales it
-to the procedural owl's height, so the framing holds. Full constraints are in
-[`public/models/README.md`](public/models/README.md).
+One header on every page: the logo on the spine, the page's links, one quiet
+action. It is always on screen, bare over the top of a page and solid once the
+page has moved, so the brand and the way around are never more than a glance
+away. Below 900px the links fold into a full-screen menu instead of
+disappearing. While that menu is open the page behind it is `inert` and does
+not scroll, Escape closes it and returns focus to the button, and choosing a
+link closes it and travels there.
 
 ## Performance
 
-### What the hero actually does
+The hero used to be a WebGL scene behind a static poster. It is now vector
+artwork in the document, which is where most of the numbers below come from.
 
-```
-First paint          wordmark, headline, CTAs, HeroPoster  (no JS needed for layout)
-  ↓ requestIdleCallback
-Probe                WebGL available?  reduced motion?  device tier?
-  ↓ any check fails                    ↓ all pass
-Keep the poster                        React.lazy(Hero3D) → Canvas
-                                         ↓
-                                       PerformanceMonitor: drop DPR, then
-                                       freeze the rim sweep, on decline
-```
-
-The poster is markup and CSS, so it costs nothing beyond the HTML, scales
-perfectly, and is the LCP element on every single load. The canvas fades in
-over it once two real frames have rendered.
-
-### Checklist
-
-- [x] **3D never blocks FCP**: `React.lazy` behind `requestIdleCallback`.
-- [x] **three is out of the initial payload**: it lands in its own `three`
-      chunk, reachable only through the lazy hero. Initial JS is
-      `home` + `react-vendor` + shared runtime ≈ 93 kB gzipped.
-- [x] **The glTF path costs nothing when unused**: `@react-three` and
-      `three-stdlib` are deliberately not pinned to a manual chunk, so the
-      Meshopt/GLTF loaders land in the `OwlModel`
-      chunk, which is never requested unless `VITE_OWL_MODEL_URL` is set.
-- [x] **Framer Motion is loaded through `LazyMotion` + `m`**, not the full
-      `motion` bundle.
-- [x] **DPR is capped** at 1.75 on desktop and 1.25 on mid devices, and never
-      exceeds the display's own ratio.
-- [x] **Offscreen and hidden pause the loop**: `frameloop="never"` driven by
-      an `IntersectionObserver` on the hero plus `visibilitychange`.
-- [x] **Phones get the poster**: coarse pointer under 768px, plus anything
-      reporting ≤2 cores or ≤2 GB.
-- [x] **`prefers-reduced-motion` gets the poster** and no reveal animations.
-- [x] **No WebGL gets the poster**, with full content parity.
-- [x] **No post-processing.** The gleam is emissive irises and additive
-      sprites; there is no bloom pass and no particle field.
-- [x] **No HDRI fetch**: reflections come from inline drei `<Lightformer>`
-      shapes rendered once (`frames={1}`).
-- [x] **No shadow maps.** Depth reads from the rim sweep and the fog.
-- [x] **Scroll and pointer never re-render React**: both write to refs that
-      the frame loop reads.
-- [x] **Two generated textures**, 128px and 512px, drawn to a canvas at
-      runtime. No image requests for the hero.
+- [x] **No 3D or animation library.** A visit to the home page downloads about
+      74 kB of JavaScript gzipped. With the WebGL hero it was about 350 kB.
+- [x] **Idle is idle.** With the page open and untouched the main thread is at
+      rest. The WebGL hero drew a new frame on every tick for as long as it
+      was on screen.
+- [x] **Continuous motion is compositor-only.** Everything that loops is
+      `transform` or `opacity` on its own layer. The one painted animation
+      is the wordmark's glint, and it runs once.
+- [x] **Offscreen pauses the stage**: an `IntersectionObserver` sets
+      `data-paused`, which stops every animation on it.
+- [x] **`prefers-reduced-motion` gets a still page**, with no reveal
+      animations and nothing left hidden.
+- [x] **Reveals never hide content by default.** `<Reveal>` marks a block as
+      pending only after the page has painted, and only if the block is
+      below the fold. If the observer never runs, or the page is printed,
+      everything is visible.
+- [x] **Scroll and pointer stay out of React.** Reading progress is one
+      custom property written in a frame callback and the irises are moved
+      by attribute. The header re-renders only when it changes state: bare
+      to solid, or a new section under the reader.
+- [x] **The display font is preloaded.** Marcellus sets the wordmark and
+      every heading, so the HTML names it and it downloads alongside the
+      script instead of after the stylesheet has been parsed. On the home
+      page it is there for the first paint.
+- [x] **No backdrop blur.** The header is opaque, so scrolling does not
+      re-blur the page under it on every frame.
+- [x] **No image requests for the hero**, and no HDRI, texture or model.
 
 ### Rough budget
 
-| Chunk                                     | Raw     | Gzip   | When                                |
-| ----------------------------------------- | ------- | ------ | ----------------------------------- |
-| Home, React, shared runtime, and app CSS  | ~304 kB | ~98 kB | Initial                             |
-| `three`                                   | 725 kB  | 185 kB | After idle, if the hero qualifies   |
-| `Hero3D` + procedural geometry/fiber/drei | 224 kB  | 74 kB  | With the above                      |
-| `OwlModel`                                | 72 kB   | 21 kB  | Only if `VITE_OWL_MODEL_URL` is set |
+| Asset                                       | Raw    | Gzip  | When                           |
+| ------------------------------------------- | ------ | ----- | ------------------------------ |
+| `react-vendor`                              | 190 kB | 60 kB | Every page, cached across them |
+| `app`: header, footer, logo art, shared CSS | 58 kB  | 16 kB | Every page, cached across them |
+| `home`                                      | 20 kB  | 6 kB  | Home                           |
+| `scrollTo`                                  | 2 kB   | 1 kB  | Home, `/akuru/`                |
+| `akuru` and its CSS                         | 21 kB  | 7 kB  | `/akuru/`                      |
+| `legal` and its CSS                         | 9 kB   | 4 kB  | Terms, Privacy                 |
+| Marcellus                                   | 15 kB  | n/a   | Preloaded                      |
+| Schibsted Grotesk ×3, Spline Sans Mono ×2   | 100 kB | n/a   | When text first uses each one  |
+
+Measured against the previous build in headless Chromium throttled to
+Lighthouse's phone profile (1.6 Mbps, 150 ms round trip, CPU slowed four
+times): the home page's largest paint moved from about 1.9 s to 1.3 s. First
+paint moved the other way, from about 0.5 s to 0.65 s: the display font is now
+fetched before the first paint rather than after it, which costs about a tenth
+of a second, and the emblem is more to draw than the old poster was. The Akuru
+page took on the shared header, footer and logo: its largest paint is
+unchanged at about 1.6 s and its first paint moved from about 0.55 s to 0.7 s.
+
+Every page still needs its script before anything paints. Prerendering the
+markup at build time would take the script off that path and is the obvious
+next step.
 
 ## Accessibility
 
-Semantic `header`/`main`/`section`/`footer`, one `h1` carrying both the
-wordmark and the headline, no skipped heading levels, a skip link, gold
+Semantic `header`/`main`/`section`/`footer`, one `h1` carrying the wordmark,
+the tagline and the headline, no skipped heading levels, a skip link, gold
 `:focus-visible` outlines from the design tokens, and a `prefers-contrast:
-more` branch that firms up hairlines and lifts secondary text. The canvas is
-decorative and `pointer-events: none`; every word on the page is present and
-readable with it absent.
+more` branch that firms up hairlines and lifts secondary text. The hero
+artwork is decorative and `aria-hidden`; every word on the page is present and
+readable without it. A product that is not out yet is plain text with its
+status beside it, never a link, in the catalogue and in the footer alike. The
+e2e suite runs axe against the home and Akuru pages.
 
 ## Design system
 
@@ -290,6 +292,14 @@ rather than frosted, and the page carries exactly one filled button: the hero's
 is a rule-and-arrow link, which is what keeps that one gold rectangle meaning
 something.
 
+The catalogue is in two parts that cannot be mistaken for each other. What can
+be opened today is set as full rows, each with its way in, under "Available
+now". What is still being built is set smaller and quieter under "Not yet
+released", keeps its own status, and is never a link.
+
+The marker in front of every label is the logo's calibration diamond: the gold
+lozenge that marks the cardinal points of its ring.
+
 - `src/styles/tokens.css`: the Nyx palette (`--nyx #070b12`, `--gleam
 #e9b45c`, `--verdigris #45b98e`, `--ember #d85f55`), type scale, motion
   curves, radii, elevation. Trading-specific tokens, glass and status tints
@@ -297,7 +307,7 @@ something.
 - `src/styles/base.css`: reset, the body radial-gradient atmosphere,
   typography, skip link, reduced-motion branch.
 - `src/styles/app.css`: the shell and its spine, section rhythm, actions, the
-  product catalogue, hero composition.
+  site header, the hero composition, the product catalogue, the footer.
 
 Type: Marcellus (display) · Schibsted Grotesk (body) · Spline Sans Mono
 (labels). Exact weights are bundled from `@fontsource`, fingerprinted by Vite,
@@ -305,11 +315,12 @@ and served from the same origin.
 
 ### One measure, and what happens past it
 
-`--shell-max` is the page's only measure. The nav, the hero and every section
-share it, so the spine the copy starts on is one unbroken vertical from the
-wordmark to the footer. The hero and the nav used to run to a wider stage,
-which on anything past 1920px left them hugging the screen edge above a column
-floating in the middle of the display.
+`--shell-max` is the site's only measure. The header, the hero, every section
+and the footer share it on every page, so the spine the copy starts on is one
+unbroken vertical from the logo in the header to the logo in the footer. The
+hero and the nav used to run to a wider stage, which on anything past 1920px
+left them hugging the screen edge above a column floating in the middle of the
+display.
 
 Above 1700px the fractional columns stop being fractions. A rail set to 42% of
 the width keeps taking 42% of a 34" screen, so the eyebrow ends up holding a
@@ -347,9 +358,10 @@ heavy under the hand.
 Title, description, canonical, OG and Twitter cards, and an `Organization` +
 `WebSite` JSON-LD graph that names the Glaux products as brands, all in
 `index.html`. `public/robots.txt` and `public/sitemap.xml` are static.
-`npm run build` regenerates `public/og-image.png`, `og-akuru.png`,
-`brand-icon-512.png`, and `apple-touch-icon.png` before Vite runs. Commit the
-generated files so previews and non-build consumers have the same assets.
+`npm run build` regenerates `public/favicon.svg`, `favicon-32.png`,
+`og-image.png`, `og-akuru.png`, `brand-icon-512.png`, and
+`apple-touch-icon.png` from `logo/` before Vite runs. Commit the generated
+files so previews and non-build consumers have the same assets.
 `akuru/index.html` carries its own cards and a `SoftwareApplication` JSON-LD.
 
 ## Glaux Akuru downloads

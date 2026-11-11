@@ -8,12 +8,17 @@
   box-sizing: border-box;
 }
 
+/* Nothing may scroll sideways. `clip` rather than `hidden` where it is
+   supported: `hidden` turns <body> into a scroll container of its own, and
+   a sticky element then sticks to the body, which never scrolls, instead
+   of to the page. */
 html,
 body {
   margin: 0;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -57,16 +62,18 @@ body::before {
 }
 
 /* A physical surface over the digital sky. The texture is generated in the
-   browser, costs no request, and is faint enough to disappear behind copy. */
+   browser, costs no request, and is faint enough to disappear behind copy.
+   It is laid over the page plainly rather than blended into it: a blend
+   mode on a full-screen fixed layer makes the browser re-blend the whole
+   viewport on every scrolled frame, for a difference nobody can see. */
 #root::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.026;
+  opacity: 0.024;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
 }
 
 /* Keeps the wide canvas feeling like an illuminated instrument surface,
