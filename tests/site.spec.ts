@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { type Page, expect, test } from "@playwright/test";
 
 const release = JSON.parse(readFileSync("src/akuru/release.json", "utf8")) as {
   version: string;
@@ -8,6 +8,14 @@ const release = JSON.parse(readFileSync("src/akuru/release.json", "utf8")) as {
 };
 const installerUrl = (name: string) =>
   new RegExp(`^https://[^/]+/.*${name.replace(/[.]/g, "\\.")}$`);
+
+// The Akuru page asks the download host for the newest release. Answer with the bundled one, so a run
+// neither depends on that host nor on its CORS rules (which allow useglaux.com, not the preview server).
+const serveRelease = (page: Page, body: object) =>
+  page.route("**/akuru/release.json", (route) =>
+    route.fulfill({ json: body, headers: { "access-control-allow-origin": "*" } }),
+  );
+test.beforeEach(({ page }) => serveRelease(page, release));
 
 test("home exposes its primary content and metadata", async ({ page }) => {
   const errors: string[] = [];
@@ -106,6 +114,39 @@ test("the Glaux Akuru page offers the current installers", async ({ page }) => {
     expect((await page.request.get(asset)).ok(), asset).toBeTruthy();
   }
   expect(errors).toEqual([]);
+});
+
+test("a newer release on the download host replaces the one the site was built with", async ({
+  page,
+}) => {
+  const file = (name: string, digit: string) => ({
+    name,
+    bytes: 120_000_000,
+    sha256: digit.repeat(64),
+  });
+  await serveRelease(page, {
+    version: "9.8.7",
+    date: "2030-01-02",
+    files: {
+      setup: file("Glaux-Akuru-Setup-9.8.7.exe", "a"),
+      portable: file("Glaux-Akuru-Portable-9.8.7.exe", "b"),
+    },
+  });
+  await page.goto("/akuru/");
+  await expect(page.getByText("Version 9.8.7", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Download for Windows" })).toHaveAttribute(
+    "href",
+    installerUrl("Glaux-Akuru-Setup-9.8.7.exe"),
+  );
+  await expect(page.getByText("9.8.7, 2 January 2030")).toBeVisible();
+});
+
+test("a broken release list leaves the bundled release in place", async ({ page }) => {
+  await serveRelease(page, { version: "latest", files: {} });
+  const answered = page.waitForResponse("**/akuru/release.json");
+  await page.goto("/akuru/");
+  await answered;
+  await expect(page.getByText(`Version ${release.version}`, { exact: true })).toBeVisible();
 });
 
 test.describe("on a phone", () => {
@@ -254,7 +295,7 @@ for (const path of ["/", "/akuru/", "/terms/"]) {
       });
     });
     await page.route("**/*", async (route) => {
-      if (route.request().resourceType() !== "document") return route.continue();
+      if (route.request().resourceType() !== "document") return route.fallback();
       const response = await route.fetch();
       await route.fulfill({
         response,

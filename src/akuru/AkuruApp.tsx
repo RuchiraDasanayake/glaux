@@ -12,9 +12,8 @@ import {
   steps,
   type Specimen,
 } from "./content";
-import { RELEASE, downloadUrl, fileSize, releaseDate } from "./release";
+import { downloadUrl, fileSize, releaseDate, useRelease } from "./release";
 
-const { setup, portable } = RELEASE.files;
 const onWindows = /Windows/i.test(navigator.userAgent);
 const lkr = (amount: number) => `LKR ${amount.toLocaleString("en-US")}`;
 
@@ -87,6 +86,8 @@ function SectionHead({
 
 export default function AkuruApp() {
   useSmoothAnchors();
+  const release = useRelease();
+  const { setup, portable } = release.files;
 
   return (
     <>
@@ -124,7 +125,7 @@ export default function AkuruApp() {
               </a>
               <p className="akuru-download__spec">
                 {[
-                  `Version ${RELEASE.version}`,
+                  `Version ${release.version}`,
                   fileSize(setup),
                   "Windows 10 and 11",
                   "No admin password",
@@ -294,7 +295,7 @@ export default function AkuruApp() {
               <div>
                 <dt>Version</dt>
                 <dd>
-                  {RELEASE.version}, {releaseDate}
+                  {release.version}, {releaseDate(release)}
                 </dd>
               </div>
             </dl>
